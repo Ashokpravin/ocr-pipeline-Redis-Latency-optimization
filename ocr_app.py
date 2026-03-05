@@ -116,7 +116,7 @@ if _legacy_token:
     _token_count += 1
 
 # Output directory
-BASE_OUTPUT_DIR = Path(os.getenv("OCR_OUTPUT_DIR", "./output")).resolve()
+BASE_OUTPUT_DIR = Path(os.getenv("OCR_OUTPUT_DIR", "/code/output")).resolve()
 
 # File upload constraints
 MAX_UPLOAD_SIZE_MB = int(os.getenv("MAX_UPLOAD_SIZE_MB", "500"))
