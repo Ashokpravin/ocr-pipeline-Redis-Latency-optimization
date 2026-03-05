@@ -57,6 +57,7 @@ reportlab==4.4.7
 
 # --- OCR Engine (PaddleOCR) ---
 paddlepaddle==3.2.0
+paddleocr==3.3.2
 paddlex==3.3.12
 aistudio-sdk==0.3.8
 # NOTE: paddleocr is installed via install_deps.sh with --no-deps
