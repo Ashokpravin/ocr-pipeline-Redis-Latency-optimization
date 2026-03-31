@@ -1442,3 +1442,935 @@ RuntimeError: Pipeline dependency missing: DLA - numpy.core.multiarray failed to
 2026-02-25 11:02:26,686 - root - INFO - [_pdf_to_images_fitz:253]    -> Extracting 16 pages...
 2026-02-25 11:02:28,827 - __main__ - INFO - [process_ocr_pipeline:977] [Job 386092b5498a8e7c] Ingested 16 pages
 2026-02-25 11:02:28,827 - __main__ - INFO - [process_ocr_pipeline:982] [Job 386092b5498a8e7c] Step 2/3 - Analyzing layout (16 pages)...
+2026-03-10 05:26:33,495 - __main__ - INFO - [compute_optimal_workers:435] [ResourceMonitor] Worker calc: RAM=31.0GB, safe=27.0GB, CPU=32, ram_limit=18, optimal=18
+2026-03-10 05:26:33,503 - __main__ - INFO - [lifespan:690] ============================================================
+2026-03-10 05:26:33,503 - __main__ - INFO - [lifespan:691] CustomOCR Pipeline API v3.0.0 starting...
+2026-03-10 05:26:33,503 - __main__ - INFO - [lifespan:692] ============================================================
+2026-03-10 05:26:33,503 - __main__ - INFO - [compute_optimal_workers:435] [ResourceMonitor] Worker calc: RAM=31.0GB, safe=27.0GB, CPU=32, ram_limit=18, optimal=18
+2026-03-10 05:26:33,503 - __main__ - INFO - [lifespan:703] Workers: 18 (auto-detected)
+2026-03-10 05:26:33,503 - __main__ - INFO - [lifespan:706] Output Directory   : /home/katonic/workspace/ocr-pipeline-fastapi-Latency-optimization/output
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:707] Completed Dir      : /home/katonic/workspace/ocr-pipeline-fastapi-Latency-optimization/output/completed
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:708] Max Upload Size    : 500 MB
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:709] Max Workers        : 18
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:710] Job Retention      : 24 hours
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:711] Job Timeout        : 3600s
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:712] Rate Limit         : 0 req/min/IP
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:713] Min Disk Free      : 2.0 GB
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:714] Min RAM Free       : 512.0 MB
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:715] Stale Threshold    : 1800s
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:716] Allowed Extensions : 23 types
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:719] --- Authentication ---
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:721]   Configured Tokens: 3
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:726]   AUTH_TOKEN_1    : REQUEST_AP****UtVo ✓
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:726]   AUTH_TOKEN_2    : REQUEST_AP****ATE4 ✓
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:726]   AUTH_TOKEN_3    : REQUEST_AP****18gA ✓
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:728]   AUTH_TOKEN_4    : (empty)
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:728]   AUTH_TOKEN_5    : (empty)
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:728]   AUTH_TOKEN_6    : (empty)
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:728]   AUTH_TOKEN_7    : (empty)
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:728]   AUTH_TOKEN_8    : (empty)
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:728]   AUTH_TOKEN_9    : (empty)
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:728]   AUTH_TOKEN_10    : (empty)
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:731] --- End Authentication ---
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:734] --- System Resources ---
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:735]   Total RAM        : 31.0 GB
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:736]   Available RAM    : 14.9 GB
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:737]   CPU Cores        : 32
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:738]   Disk Free        : 48.7 GB
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:739]   Load Average     : 0.40
+2026-03-10 05:26:33,504 - __main__ - INFO - [lifespan:740] ------------------------
+2026-03-10 05:26:33,505 - __main__ - INFO - [lifespan:747] Output directory: Writable ✓
+2026-03-10 05:26:33,505 - __main__ - INFO - [lifespan:757] Thread pool initialized with 18 workers
+2026-03-10 05:26:33,505 - __main__ - INFO - [lifespan:766] ============================================================
+2026-03-10 05:26:33,505 - __main__ - INFO - [lifespan:767] API Ready. Accepting requests.
+2026-03-10 05:26:33,505 - __main__ - INFO - [lifespan:768] ============================================================
+2026-03-10 05:27:19,905 - __main__ - INFO - [lifespan:773] CustomOCR Pipeline API shutting down...
+2026-03-10 05:27:19,905 - __main__ - INFO - [periodic_job_cleanup:1469] Periodic cleanup task cancelled
+2026-03-10 05:27:19,905 - __main__ - INFO - [periodic_stale_reaper:1483] Stale reaper task cancelled
+2026-03-10 05:27:19,905 - __main__ - INFO - [lifespan:784] Draining active workers (waiting for completion)...
+2026-03-10 05:27:19,905 - __main__ - INFO - [lifespan:786] Thread pool shut down
+2026-03-10 05:27:19,905 - __main__ - INFO - [lifespan:788] Shutdown complete.
+2026-03-11 13:22:11,918 - __main__ - INFO - [lifespan:576] ============================================================
+2026-03-11 13:22:11,918 - __main__ - INFO - [lifespan:577] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-11 13:22:11,918 - __main__ - INFO - [lifespan:578] ============================================================
+2026-03-11 13:22:11,919 - __main__ - INFO - [compute_optimal_workers:369] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 → optimal=18
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:588] Workers: 18 (auto-detected)
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:590] Output Directory   : /home/katonic/workspace/ocr-pipeline-fastapi-Latency-optimization/output
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:591] Completed Dir      : /home/katonic/workspace/ocr-pipeline-fastapi-Latency-optimization/output/completed
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:592] Max Upload Size    : 500 MB
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:593] Job Retention      : 24 hours
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:594] Job Timeout        : 3600s
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:595] Rate Limit         : 0 req/min/IP
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:596] Redis Broker       : redis://localhost:6379/0
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:599] Auth Tokens: 3 configured
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:603]   RAM              : 31.0 GB total
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:604]   CPU              : 32 cores
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:605]   Disk Free        : 48.7 GB
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:611] Output directory: Writable ✓
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:619] ============================================================
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:620] API Ready. Accepting requests.
+2026-03-11 13:22:11,919 - __main__ - INFO - [lifespan:621] ============================================================
+2026-03-12 06:37:29,261 - __main__ - INFO - [lifespan:626] Shutting down...
+2026-03-12 06:37:29,262 - __main__ - INFO - [lifespan:634] Shutdown complete.
+2026-03-16 11:01:56,905 - ocr_app - INFO - [lifespan:662] ============================================================
+2026-03-16 11:01:56,905 - ocr_app - INFO - [lifespan:663] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-16 11:01:56,905 - ocr_app - INFO - [lifespan:664] ============================================================
+2026-03-16 11:01:56,905 - ocr_app - INFO - [compute_optimal_workers:452] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 → optimal=18
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:670] Reference workers  : 18
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:671] Output Directory   : /home/katonic/workspace/ocr-pipeline-fastapi-Latency-optimization/output
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:672] Max Upload Size    : 500 MB
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:673] Job Retention      : 24 hours
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:674] Rate Limit         : 0 req/min/IP
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:675] Max Queue Depth    : 50
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:676] Redis Broker       : redis://localhost:6379/0
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:677] PostgreSQL         : not set (optional)
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:680] Auth Tokens        : 3 configured
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:684] RAM                : 31.0 GB
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:685] CPU cores          : 32
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:686] Disk free          : 48.7 GB
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:693] Output directory   : Writable ✓
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:704] ============================================================
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:705] API Ready. Accepting requests.
+2026-03-16 11:01:56,906 - ocr_app - INFO - [lifespan:706] ============================================================
+2026-03-17 11:20:30,567 - ocr_app - INFO - [lifespan:662] ============================================================
+2026-03-17 11:20:30,568 - ocr_app - INFO - [lifespan:663] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-17 11:20:30,568 - ocr_app - INFO - [lifespan:664] ============================================================
+2026-03-17 11:20:31,460 - ocr_app - INFO - [lifespan:670] Reference workers  : 2
+2026-03-17 11:20:31,460 - ocr_app - INFO - [lifespan:671] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-17 11:20:31,467 - ocr_app - INFO - [lifespan:672] Max Upload Size    : 500 MB
+2026-03-17 11:20:31,467 - ocr_app - INFO - [lifespan:673] Job Retention      : 24 hours
+2026-03-17 11:20:31,467 - ocr_app - INFO - [lifespan:674] Rate Limit         : 0 req/min/IP
+2026-03-17 11:20:31,467 - ocr_app - INFO - [lifespan:675] Max Queue Depth    : 50
+2026-03-17 11:20:31,467 - ocr_app - INFO - [lifespan:676] Redis Broker       : redis://localhost:6379/0
+2026-03-17 11:20:31,469 - ocr_app - INFO - [lifespan:677] PostgreSQL         : configured
+2026-03-17 11:20:31,469 - ocr_app - INFO - [lifespan:680] Auth Tokens        : 3 configured
+2026-03-17 11:20:31,470 - ocr_app - INFO - [lifespan:684] RAM                : 7.8 GB
+2026-03-17 11:20:31,470 - ocr_app - INFO - [lifespan:685] CPU cores          : 4
+2026-03-17 11:20:31,472 - ocr_app - INFO - [lifespan:686] Disk free          : 97.9 GB
+2026-03-17 11:20:32,395 - ocr_app - WARNING - [_get_pg_engine:228] [PostgreSQL] Not available (non-fatal): No module named 'psycopg2'
+2026-03-17 11:20:32,403 - ocr_app - INFO - [lifespan:704] ============================================================
+2026-03-17 11:20:32,449 - ocr_app - INFO - [lifespan:705] API Ready. Accepting requests.
+2026-03-17 11:20:32,454 - ocr_app - INFO - [lifespan:706] ============================================================
+2026-03-17 11:57:42,029 - ocr_app - INFO - [lifespan:711] Shutting down...
+2026-03-17 11:57:42,068 - ocr_app - INFO - [lifespan:719] Shutdown complete.
+2026-03-17 11:57:53,708 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-17 11:57:53,711 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-17 11:57:53,717 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-17 11:57:53,719 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-17 11:57:53,719 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-17 11:57:53,720 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-17 11:57:53,721 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-17 11:57:53,723 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-17 11:57:53,726 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-17 11:57:53,727 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-17 11:57:53,728 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-17 11:57:53,728 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-17 11:57:53,733 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-17 11:57:53,738 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-17 11:57:53,741 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-17 11:57:53,742 - ocr_app - INFO - [lifespan:668] Disk free          : 97.9 GB
+2026-03-17 11:57:53,754 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-17 11:57:54,956 - ocr_app - WARNING - [_get_pg_engine:226] [PostgreSQL] Not available (non-fatal): (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "ocr_user"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-03-17 11:57:54,958 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-17 11:57:54,958 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-17 11:57:54,959 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-17 11:59:13,934 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-17 11:59:13,934 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-17 11:59:52,426 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-17 11:59:52,427 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-17 11:59:52,427 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-17 11:59:52,429 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-17 11:59:52,431 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-17 11:59:52,432 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-17 11:59:52,433 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-17 11:59:52,434 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-17 11:59:52,436 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-17 11:59:52,437 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-17 11:59:52,437 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-17 11:59:52,438 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-17 11:59:52,438 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-17 11:59:52,439 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-17 11:59:52,441 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-17 11:59:52,442 - ocr_app - INFO - [lifespan:668] Disk free          : 97.9 GB
+2026-03-17 11:59:52,446 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-17 11:59:53,332 - ocr_app - WARNING - [_get_pg_engine:226] [PostgreSQL] Not available (non-fatal): (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "ocr_user"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-03-17 11:59:53,333 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-17 11:59:53,333 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-17 11:59:53,333 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-17 12:13:21,226 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-17 12:13:21,234 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-17 12:13:29,568 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-17 12:13:29,569 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-17 12:13:29,569 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-17 12:13:29,570 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-17 12:13:29,570 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-17 12:13:29,571 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-17 12:13:29,571 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-17 12:13:29,571 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-17 12:13:29,572 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-17 12:13:29,572 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-17 12:13:29,572 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-17 12:13:29,572 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-17 12:13:29,573 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-17 12:13:29,574 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-17 12:13:29,574 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-17 12:13:29,575 - ocr_app - INFO - [lifespan:668] Disk free          : 97.9 GB
+2026-03-17 12:13:29,579 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-17 12:13:30,340 - ocr_app - WARNING - [_get_pg_engine:226] [PostgreSQL] Not available (non-fatal): (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "ocr_user"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-03-17 12:13:30,340 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-17 12:13:30,340 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-17 12:13:30,340 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-17 12:29:03,569 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-17 12:29:03,569 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-17 12:29:13,963 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-17 12:29:13,964 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-17 12:29:13,966 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-17 12:29:13,967 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-17 12:29:13,967 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-17 12:29:13,969 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-17 12:29:13,969 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-17 12:29:13,969 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-17 12:29:13,970 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-17 12:29:13,971 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-17 12:29:13,972 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-17 12:29:13,972 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-17 12:29:13,973 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-17 12:29:13,975 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-17 12:29:13,977 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-17 12:29:13,978 - ocr_app - INFO - [lifespan:668] Disk free          : 97.8 GB
+2026-03-17 12:29:13,988 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-17 12:29:14,749 - ocr_app - WARNING - [_get_pg_engine:226] [PostgreSQL] Not available (non-fatal): (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "ocr_user"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-03-17 12:29:14,751 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-17 12:29:14,751 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-17 12:29:14,751 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-17 12:36:36,464 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-17 12:36:36,476 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-17 12:38:20,845 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-17 12:38:20,846 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-17 12:38:20,846 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-17 12:38:20,847 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-17 12:38:20,848 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-17 12:38:20,848 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-17 12:38:20,849 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-17 12:38:20,849 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-17 12:38:20,849 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-17 12:38:20,849 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-17 12:38:20,849 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-17 12:38:20,851 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-17 12:38:20,851 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-17 12:38:20,852 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-17 12:38:20,853 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-17 12:38:20,854 - ocr_app - INFO - [lifespan:668] Disk free          : 97.6 GB
+2026-03-17 12:38:20,861 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-17 12:38:21,715 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-17 12:38:21,715 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-17 12:38:21,716 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-17 12:38:21,716 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-17 12:42:57,154 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-17 12:42:57,155 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-17 12:43:23,640 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-17 12:43:23,654 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-17 12:43:23,659 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-17 12:43:23,663 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-17 12:43:23,665 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-17 12:43:23,670 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-17 12:43:23,673 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-17 12:43:23,678 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-17 12:43:23,686 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-17 12:43:23,698 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-17 12:43:23,702 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-17 12:43:23,705 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-17 12:43:23,708 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-17 12:43:23,715 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-17 12:43:23,718 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-17 12:43:23,723 - ocr_app - INFO - [lifespan:668] Disk free          : 97.6 GB
+2026-03-17 12:43:23,734 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-17 12:43:24,811 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-17 12:43:24,811 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-17 12:43:24,812 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-17 12:43:24,813 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-17 15:11:33,726 - ocr_app - INFO - [process_document:903] [939e000e9b738e16] [Job eb63c53687b1c2cb] Received: saudi_2030.pdf (0.06 MB)
+2026-03-17 15:11:37,862 - ocr_app - INFO - [process_document:923] [Job eb63c53687b1c2cb] Dispatched to Celery ocr_queue
+2026-03-17 15:27:22,292 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-17 15:27:22,299 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-17 15:27:33,114 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-17 15:27:33,117 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-17 15:27:33,119 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-17 15:27:33,121 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-17 15:27:33,125 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-17 15:27:33,127 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-17 15:27:33,131 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-17 15:27:33,133 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-17 15:27:33,137 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-17 15:27:33,138 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-17 15:27:33,138 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-17 15:27:33,141 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-17 15:27:33,141 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-17 15:27:33,142 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-17 15:27:33,143 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-17 15:27:33,143 - ocr_app - INFO - [lifespan:668] Disk free          : 96.4 GB
+2026-03-17 15:27:33,152 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-17 15:27:35,318 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-17 15:27:35,320 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-17 15:27:35,321 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-17 15:27:35,321 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-17 15:29:11,993 - ocr_app - INFO - [process_document:903] [ecfe48514d041025] [Job 699f22ff3936c9e1] Received: saudi_2030.pdf (0.06 MB)
+2026-03-17 15:29:12,557 - ocr_app - INFO - [process_document:923] [Job 699f22ff3936c9e1] Dispatched to Celery ocr_queue
+2026-03-17 18:30:08,497 - ocr_app - INFO - [process_document:903] [b6cb9e18855dac78] [Job b7985c91d3f4352a] Received: saudi_2030.pdf (0.06 MB)
+2026-03-17 18:30:08,722 - ocr_app - INFO - [process_document:923] [Job b7985c91d3f4352a] Dispatched to Celery ocr_queue
+2026-03-17 18:37:43,468 - ocr_app - INFO - [process_document:903] [96e4d406dff1645a] [Job ce33ebc0f76ae33f] Received: saudi_2030.pdf (0.06 MB)
+2026-03-17 18:37:43,551 - ocr_app - INFO - [process_document:923] [Job ce33ebc0f76ae33f] Dispatched to Celery ocr_queue
+2026-03-17 18:41:18,207 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-17 18:41:18,238 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-17 18:42:04,308 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-17 18:42:04,310 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-17 18:42:04,312 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-17 18:42:04,312 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-17 18:42:04,314 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-17 18:42:04,314 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-17 18:42:04,316 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-17 18:42:04,320 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-17 18:42:04,322 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-17 18:42:04,324 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-17 18:42:04,324 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-17 18:42:04,325 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-17 18:42:04,326 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-17 18:42:04,328 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-17 18:42:04,329 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-17 18:42:04,330 - ocr_app - INFO - [lifespan:668] Disk free          : 88.5 GB
+2026-03-17 18:42:04,361 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-17 18:42:12,735 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-17 18:42:12,735 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-17 18:42:12,736 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-17 18:42:12,736 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-17 18:42:21,249 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-17 18:42:21,249 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-17 18:42:33,225 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-17 18:42:33,227 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-17 18:42:33,230 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-17 18:42:33,237 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-17 18:42:33,246 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-17 18:42:33,249 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-17 18:42:33,255 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-17 18:42:33,259 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-17 18:42:33,264 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-17 18:42:33,269 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-17 18:42:33,270 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-17 18:42:33,271 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-17 18:42:33,272 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-17 18:42:33,278 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-17 18:42:33,279 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-17 18:42:33,281 - ocr_app - INFO - [lifespan:668] Disk free          : 88.5 GB
+2026-03-17 18:42:33,288 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-17 18:42:34,140 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-17 18:42:34,142 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-17 18:42:34,143 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-17 18:42:34,143 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-17 18:46:24,429 - ocr_app - INFO - [process_document:903] [18517702935603f7] [Job 961d141c6baf9973] Received: saudi_2030.pdf (0.06 MB)
+2026-03-17 18:46:25,712 - ocr_app - INFO - [process_document:935] [Job 961d141c6baf9973] Dispatched to Celery ocr_queue
+2026-03-17 18:57:51,366 - ocr_app - INFO - [process_document:903] [3e6e1a6c7e738648] [Job 20b311afd860891b] Received: saudi_2030.pdf (0.06 MB)
+2026-03-17 18:57:51,421 - ocr_app - INFO - [process_document:935] [Job 20b311afd860891b] Dispatched to Celery ocr_queue
+2026-03-17 20:11:56,557 - ocr_app - INFO - [process_document:903] [c82301d88811c1a1] [Job 178853818bd4c696] Received: saudi_2030.pdf (0.06 MB)
+2026-03-17 20:11:56,660 - ocr_app - INFO - [process_document:935] [Job 178853818bd4c696] Dispatched to Celery ocr_queue
+2026-03-18 12:34:39,016 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-18 12:34:39,027 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-18 12:34:48,353 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 12:34:48,354 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 12:34:48,355 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 12:34:48,356 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 12:34:48,357 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 12:34:48,359 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 12:34:48,359 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 12:34:48,361 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 12:34:48,362 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 12:34:48,364 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 12:34:48,366 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 12:34:48,367 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 12:34:48,368 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 12:34:48,374 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 12:34:48,375 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 12:34:48,376 - ocr_app - INFO - [lifespan:668] Disk free          : 77.5 GB
+2026-03-18 12:34:48,383 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 12:34:59,343 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 12:34:59,350 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 12:34:59,360 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 12:34:59,371 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 12:35:13,008 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 12:35:13,013 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 12:35:13,019 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 12:35:13,022 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 12:35:13,034 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 12:35:13,036 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 12:35:13,043 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 12:35:13,052 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 12:35:13,059 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 12:35:13,069 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 12:35:13,075 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 12:35:13,078 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 12:35:13,088 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 12:35:13,094 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 12:35:13,100 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 12:35:13,113 - ocr_app - INFO - [lifespan:668] Disk free          : 77.5 GB
+2026-03-18 12:35:13,142 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 12:35:16,480 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 12:35:16,489 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 12:35:16,496 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 12:35:16,514 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 12:46:18,431 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-18 12:46:18,446 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-18 12:47:10,683 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 12:47:10,683 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 12:47:10,684 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 12:47:10,685 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 12:47:10,686 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 12:47:10,686 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 12:47:10,686 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 12:47:10,687 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 12:47:10,687 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 12:47:10,688 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 12:47:10,688 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 12:47:10,689 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 12:47:10,689 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 12:47:10,690 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 12:47:10,691 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 12:47:10,694 - ocr_app - INFO - [lifespan:668] Disk free          : 76.7 GB
+2026-03-18 12:47:10,698 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 12:47:11,651 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 12:47:11,652 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 12:47:11,653 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 12:47:11,654 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 12:48:55,884 - ocr_app - INFO - [process_document:903] [8a7402ed848ff481] [Job db27ff34943acd2c] Received: GOOGLE ADK USECASES.pdf (0.36 MB)
+2026-03-18 12:48:57,241 - ocr_app - INFO - [process_document:935] [Job db27ff34943acd2c] Dispatched to Celery ocr_queue
+2026-03-18 13:08:11,107 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 13:08:11,109 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 13:08:11,109 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 13:08:11,111 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 13:08:11,111 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 13:08:11,112 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 13:08:11,112 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 13:08:11,112 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 13:08:11,113 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 13:08:11,113 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 13:08:11,113 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 13:08:11,115 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 13:08:11,115 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 13:08:11,116 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 13:08:11,118 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 13:08:11,118 - ocr_app - INFO - [lifespan:668] Disk free          : 76.7 GB
+2026-03-18 13:08:11,124 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 13:08:12,122 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 13:08:12,123 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 13:08:12,123 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 13:08:12,123 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 13:24:37,644 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-18 13:24:37,692 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-18 13:25:03,991 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 13:25:04,015 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 13:25:04,020 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 13:25:04,034 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 13:25:04,046 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 13:25:04,055 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 13:25:04,059 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 13:25:04,063 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 13:25:04,064 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 13:25:04,068 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 13:25:04,075 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 13:25:04,076 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 13:25:04,077 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 13:25:04,083 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 13:25:04,094 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 13:25:04,105 - ocr_app - INFO - [lifespan:668] Disk free          : 76.5 GB
+2026-03-18 13:25:04,130 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 13:25:07,510 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 13:25:07,512 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 13:25:07,513 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 13:25:07,518 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 13:26:08,969 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-18 13:26:08,972 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-18 13:26:20,011 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 13:26:20,016 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 13:26:20,018 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 13:26:20,020 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 13:26:20,021 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 13:26:20,022 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 13:26:20,023 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 13:26:20,024 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 13:26:20,024 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 13:26:20,026 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 13:26:20,029 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 13:26:20,036 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 13:26:20,037 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 13:26:20,038 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 13:26:20,039 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 13:26:20,041 - ocr_app - INFO - [lifespan:668] Disk free          : 76.5 GB
+2026-03-18 13:26:20,055 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 13:26:22,484 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 13:26:22,485 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 13:26:22,486 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 13:26:22,487 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 13:32:24,593 - ocr_app - INFO - [process_document:903] [28247b31d7be86db] [Job b9979c034245278b] Received: saudi_2030.pdf (0.06 MB)
+2026-03-18 13:32:25,233 - ocr_app - INFO - [process_document:935] [Job b9979c034245278b] Dispatched to Celery ocr_queue
+2026-03-18 14:41:55,176 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 14:41:55,177 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 14:41:55,177 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 14:41:55,177 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 14:41:55,178 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 14:41:55,178 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 14:41:55,178 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 14:41:55,178 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 14:41:55,178 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 14:41:55,180 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 14:41:55,180 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 14:41:55,181 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 14:41:55,182 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 14:41:55,183 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 14:41:55,184 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 14:41:55,186 - ocr_app - INFO - [lifespan:668] Disk free          : 77.4 GB
+2026-03-18 14:41:55,192 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 14:41:56,918 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 14:41:56,936 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 14:41:56,941 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 14:41:56,943 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 14:49:46,313 - ocr_app - INFO - [process_document:903] [49fc7a30d6c59b21] [Job 69cc42b17010840d] Received: saudi_2030.pdf (0.06 MB)
+2026-03-18 14:49:46,706 - ocr_app - INFO - [process_document:935] [Job 69cc42b17010840d] Dispatched to Celery ocr_queue
+2026-03-18 15:30:25,012 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-18 15:30:25,019 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-18 15:31:44,466 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 15:31:44,466 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 15:31:44,466 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 15:31:44,466 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 15:31:44,466 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 15:31:44,466 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 15:31:44,466 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 15:31:44,466 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 15:31:44,466 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 15:31:44,466 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 15:31:44,475 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 15:31:44,475 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 15:31:44,475 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 15:31:44,475 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 15:31:44,477 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 15:31:44,477 - ocr_app - INFO - [lifespan:668] Disk free          : 77.1 GB
+2026-03-18 15:31:44,481 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 15:31:46,952 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 15:31:46,954 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 15:31:46,954 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 15:31:46,955 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 15:33:14,123 - ocr_app - INFO - [process_document:903] [fb441b57a3ad0dcb] [Job 0a1fc60e846351c3] Received: saudi_2030.pdf (0.06 MB)
+2026-03-18 15:33:14,671 - ocr_app - INFO - [process_document:935] [Job 0a1fc60e846351c3] Dispatched to Celery ocr_queue
+2026-03-18 15:59:26,082 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 15:59:26,090 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 15:59:26,091 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 15:59:26,092 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 15:59:26,092 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 15:59:26,094 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 15:59:26,095 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 15:59:26,097 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 15:59:26,097 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 15:59:26,097 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 15:59:26,097 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 15:59:26,097 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 15:59:26,097 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 15:59:26,097 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 15:59:26,097 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 15:59:26,097 - ocr_app - INFO - [lifespan:668] Disk free          : 77.5 GB
+2026-03-18 15:59:26,115 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 15:59:27,279 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 15:59:27,279 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 15:59:27,280 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 15:59:27,281 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 16:01:32,418 - ocr_app - INFO - [process_document:903] [a6e5a182af448f43] [Job 8b7022c4fb7172aa] Received: saudi_2030.pdf (0.06 MB)
+2026-03-18 16:01:33,055 - ocr_app - INFO - [process_document:935] [Job 8b7022c4fb7172aa] Dispatched to Celery ocr_queue
+2026-03-18 16:08:14,969 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-18 16:08:15,018 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-18 16:08:20,880 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 16:08:20,881 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 16:08:20,881 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 16:08:20,882 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 16:08:20,882 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 16:08:20,882 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 16:08:20,882 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 16:08:20,883 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 16:08:20,884 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 16:08:20,884 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 16:08:20,885 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 16:08:20,885 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 16:08:20,887 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 16:08:20,887 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 16:08:20,890 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 16:08:20,890 - ocr_app - INFO - [lifespan:668] Disk free          : 77.7 GB
+2026-03-18 16:08:20,894 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 16:08:21,584 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 16:08:21,586 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 16:08:21,587 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 16:08:21,587 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 16:08:23,717 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-18 16:08:23,719 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-18 16:08:50,999 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 16:08:50,999 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 16:08:51,000 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 16:08:51,001 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 16:08:51,001 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 16:08:51,002 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 16:08:51,003 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 16:08:51,003 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 16:08:51,004 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 16:08:51,004 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 16:08:51,005 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 16:08:51,006 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 16:08:51,008 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 16:08:51,010 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 16:08:51,012 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 16:08:51,013 - ocr_app - INFO - [lifespan:668] Disk free          : 77.7 GB
+2026-03-18 16:08:51,018 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 16:08:51,685 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 16:08:51,687 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 16:08:51,690 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 16:08:51,690 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 16:10:34,626 - ocr_app - INFO - [process_document:903] [a97554670ccd75ea] [Job 65a0baa3ef7ee2ff] Received: OCR to Knowledge Base - ADK.pdf (0.23 MB)
+2026-03-18 16:10:35,056 - ocr_app - INFO - [process_document:925] [Job 65a0baa3ef7ee2ff] Dispatched to Celery ocr_queue
+2026-03-18 18:25:23,362 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-18 18:25:23,387 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-18 18:25:33,026 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 18:25:33,044 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 18:25:33,059 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 18:25:33,075 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 18:25:33,086 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 18:25:33,106 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 18:25:33,127 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 18:25:33,162 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 18:25:33,185 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 18:25:33,193 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 18:25:33,194 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 18:25:33,206 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 18:25:33,215 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 18:25:33,220 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 18:25:33,256 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 18:25:33,274 - ocr_app - INFO - [lifespan:668] Disk free          : 77.1 GB
+2026-03-18 18:25:33,287 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 18:25:34,531 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 18:25:34,532 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 18:25:34,534 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 18:25:34,535 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 18:26:08,947 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-18 18:26:08,947 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-18 18:26:08,947 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-18 18:26:08,947 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-18 18:26:08,952 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-18 18:26:08,953 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-18 18:26:08,955 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-18 18:26:08,957 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-18 18:26:08,958 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-18 18:26:08,958 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-18 18:26:08,962 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-18 18:26:08,964 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-18 18:26:08,967 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-18 18:26:08,969 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-18 18:26:08,969 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-18 18:26:08,971 - ocr_app - INFO - [lifespan:668] Disk free          : 77.1 GB
+2026-03-18 18:26:08,998 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-18 18:26:09,842 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-18 18:26:09,843 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-18 18:26:09,843 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-18 18:26:09,843 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-18 18:28:00,466 - ocr_app - INFO - [process_document:903] [a5807f5d8dfa9233] [Job b9eb1a91703f158a] Received: ADK Workflow OCR to Knowledge Base Automation.pdf (0.22 MB)
+2026-03-18 18:28:00,957 - ocr_app - INFO - [process_document:925] [Job b9eb1a91703f158a] Dispatched to Celery ocr_queue
+2026-03-18 18:38:36,123 - ocr_app - INFO - [process_document:903] [b39e6d5ac3bda4cc] [Job 017f1f969510b7b1] Received: saudi_2030.pdf (0.06 MB)
+2026-03-18 18:38:36,160 - ocr_app - INFO - [process_document:925] [Job 017f1f969510b7b1] Dispatched to Celery ocr_queue
+2026-03-19 19:42:46,864 - ocr_app - INFO - [cleanup_old_jobs:604] Cleaned up 2 expired jobs
+2026-03-22 21:56:48,124 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-22 21:56:48,132 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-22 21:56:48,139 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-22 21:56:48,141 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-22 21:56:48,141 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-22 21:56:48,143 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-22 21:56:48,145 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-22 21:56:48,146 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-22 21:56:48,159 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-22 21:56:48,161 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-22 21:56:48,169 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-22 21:56:48,170 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-22 21:56:48,170 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-22 21:56:48,174 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-22 21:56:48,177 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-22 21:56:48,183 - ocr_app - INFO - [lifespan:668] Disk free          : 91.6 GB
+2026-03-22 21:56:48,202 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-22 21:56:50,711 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-22 21:56:50,713 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-22 21:56:50,715 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-22 21:56:50,716 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-22 21:58:28,060 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-22 21:58:28,064 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-22 21:58:41,116 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-22 21:58:41,118 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-22 21:58:41,118 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-22 21:58:41,118 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-22 21:58:41,120 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-22 21:58:41,120 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-22 21:58:41,123 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-22 21:58:41,123 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-22 21:58:41,124 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-22 21:58:41,124 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-22 21:58:41,124 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-22 21:58:41,129 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-22 21:58:41,131 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-22 21:58:41,131 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-22 21:58:41,133 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-22 21:58:41,133 - ocr_app - INFO - [lifespan:668] Disk free          : 91.6 GB
+2026-03-22 21:58:41,137 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-22 21:58:42,946 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-22 21:58:42,947 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-22 21:58:42,947 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-22 21:58:42,947 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-22 22:01:42,608 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-22 22:01:42,613 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-22 22:01:50,308 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-22 22:01:50,325 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-22 22:01:50,331 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-22 22:01:50,341 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-22 22:01:50,343 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-22 22:01:50,353 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-22 22:01:50,360 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-22 22:01:50,423 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-22 22:01:50,477 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-22 22:01:50,527 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-22 22:01:50,548 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-22 22:01:50,562 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-22 22:01:50,577 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-22 22:01:50,587 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-22 22:01:50,596 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-22 22:01:50,602 - ocr_app - INFO - [lifespan:668] Disk free          : 91.4 GB
+2026-03-22 22:01:50,615 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-22 22:01:51,526 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-22 22:01:51,527 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-22 22:01:51,528 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-22 22:01:51,528 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-22 22:02:05,419 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-22 22:02:05,421 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-22 22:02:10,688 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-22 22:02:10,688 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-22 22:02:10,688 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-22 22:02:10,690 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-22 22:02:10,690 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-22 22:02:10,690 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-22 22:02:10,694 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-22 22:02:10,696 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-22 22:02:10,696 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-22 22:02:10,696 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-22 22:02:10,698 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-22 22:02:10,699 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-22 22:02:10,701 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-22 22:02:10,703 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-22 22:02:10,705 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-22 22:02:10,706 - ocr_app - INFO - [lifespan:668] Disk free          : 91.4 GB
+2026-03-22 22:02:10,709 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-22 22:02:11,773 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-22 22:02:11,773 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-22 22:02:11,775 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-22 22:02:11,776 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-22 22:02:19,998 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-22 22:02:20,000 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-22 22:02:24,778 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-22 22:02:24,802 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-22 22:02:24,830 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-22 22:02:24,851 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-22 22:02:24,866 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-22 22:02:24,878 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-22 22:02:24,891 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-22 22:02:24,912 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-22 22:02:24,928 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-22 22:02:24,951 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-22 22:02:24,973 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-22 22:02:24,996 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-22 22:02:25,024 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-22 22:02:25,062 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-22 22:02:25,105 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-22 22:02:25,141 - ocr_app - INFO - [lifespan:668] Disk free          : 91.4 GB
+2026-03-22 22:02:25,203 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-22 22:02:26,355 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-22 22:02:26,371 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-22 22:02:26,371 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-22 22:02:26,384 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-22 22:02:32,279 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-22 22:02:32,305 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-22 22:02:32,340 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-22 22:02:32,372 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-22 22:02:32,405 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-22 22:02:32,433 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-22 22:02:32,472 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-22 22:02:32,496 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-22 22:02:32,518 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-22 22:02:32,535 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-22 22:02:32,557 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-22 22:02:32,595 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-22 22:02:32,633 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-22 22:02:32,676 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-22 22:02:32,692 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-22 22:02:32,720 - ocr_app - INFO - [lifespan:668] Disk free          : 91.4 GB
+2026-03-22 22:02:32,756 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-22 22:02:34,352 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-22 22:02:34,356 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-22 22:02:34,361 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-22 22:02:34,361 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-22 22:03:27,716 - ocr_app - INFO - [process_document:903] [0e7e10f8081f61e8] [Job 62e1fd3bb4996ae3] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:03:28,361 - ocr_app - INFO - [process_document:925] [Job 62e1fd3bb4996ae3] Dispatched to Celery ocr_queue
+2026-03-22 22:03:28,369 - ocr_app - INFO - [process_document:903] [1ff8425a6e3e23aa] [Job edeae3f537bd6f59] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:03:28,383 - ocr_app - INFO - [process_document:925] [Job edeae3f537bd6f59] Dispatched to Celery ocr_queue
+2026-03-22 22:03:28,389 - ocr_app - INFO - [process_document:903] [ddce333ea4cc827e] [Job e89ea879494d2a9c] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:03:28,407 - ocr_app - INFO - [process_document:925] [Job e89ea879494d2a9c] Dispatched to Celery ocr_queue
+2026-03-22 22:09:07,318 - ocr_app - INFO - [process_document:903] [d8759d9bb1cdf2b9] [Job 5e6b9b85cb02d4c7] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:09:07,361 - ocr_app - INFO - [process_document:925] [Job 5e6b9b85cb02d4c7] Dispatched to Celery ocr_queue
+2026-03-22 22:09:07,369 - ocr_app - INFO - [process_document:903] [a1fa90951558188d] [Job f9b4b0834313c985] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:09:07,377 - ocr_app - INFO - [process_document:925] [Job f9b4b0834313c985] Dispatched to Celery ocr_queue
+2026-03-22 22:09:07,415 - ocr_app - INFO - [process_document:903] [f101af5db3f2eba5] [Job 9212daa828619ea4] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:09:07,450 - ocr_app - INFO - [process_document:925] [Job 9212daa828619ea4] Dispatched to Celery ocr_queue
+2026-03-22 22:09:07,451 - ocr_app - INFO - [process_document:903] [23831dadef8f079a] [Job b49c586a08255288] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:09:07,461 - ocr_app - INFO - [process_document:925] [Job b49c586a08255288] Dispatched to Celery ocr_queue
+2026-03-22 22:09:07,463 - ocr_app - INFO - [process_document:903] [e6d9a59c1b558cde] [Job 3f27c8465a509535] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:09:07,470 - ocr_app - INFO - [process_document:925] [Job 3f27c8465a509535] Dispatched to Celery ocr_queue
+2026-03-22 22:09:07,474 - ocr_app - INFO - [process_document:903] [af43405dad714d15] [Job ce0616b92a492dec] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:09:07,481 - ocr_app - INFO - [process_document:925] [Job ce0616b92a492dec] Dispatched to Celery ocr_queue
+2026-03-22 22:09:07,490 - ocr_app - INFO - [process_document:903] [6cd709a5bee157bb] [Job 0a13955bf9bfcc4a] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:09:07,498 - ocr_app - INFO - [process_document:925] [Job 0a13955bf9bfcc4a] Dispatched to Celery ocr_queue
+2026-03-22 22:09:07,517 - ocr_app - INFO - [process_document:903] [b847b109849c3fd0] [Job 66f087162b1e4915] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:09:07,523 - ocr_app - INFO - [process_document:925] [Job 66f087162b1e4915] Dispatched to Celery ocr_queue
+2026-03-22 22:09:07,533 - ocr_app - INFO - [process_document:903] [94cd7ad0aeee23bc] [Job 2ca7f066c1a52808] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:09:07,540 - ocr_app - INFO - [process_document:925] [Job 2ca7f066c1a52808] Dispatched to Celery ocr_queue
+2026-03-22 22:09:07,542 - ocr_app - INFO - [process_document:903] [d8d2651aea561d7a] [Job 644679be8b581e7e] Received: saudi_2030.pdf (0.06 MB)
+2026-03-22 22:09:07,547 - ocr_app - INFO - [process_document:925] [Job 644679be8b581e7e] Dispatched to Celery ocr_queue
+2026-03-23 14:41:23,966 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-23 14:41:23,973 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-23 14:41:23,976 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-23 14:41:23,981 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-23 14:41:23,989 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-23 14:41:24,015 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-23 14:41:24,033 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-23 14:41:24,035 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-23 14:41:24,039 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-23 14:41:24,041 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-23 14:41:24,060 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-23 14:41:24,075 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-23 14:41:24,085 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-23 14:41:24,093 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-23 14:41:24,101 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-23 14:41:24,102 - ocr_app - INFO - [lifespan:668] Disk free          : 90.3 GB
+2026-03-23 14:41:24,106 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-23 14:41:26,539 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-23 14:41:26,540 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-23 14:41:26,543 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-23 14:41:26,543 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-23 17:19:15,668 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-23 17:19:15,698 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-23 17:19:34,755 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-23 17:19:34,756 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-23 17:19:34,760 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-23 17:19:34,767 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-23 17:19:34,769 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-23 17:19:34,769 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-23 17:19:34,771 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-23 17:19:34,771 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-23 17:19:34,773 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-23 17:19:34,775 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-23 17:19:34,778 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-23 17:19:34,778 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-23 17:19:34,780 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-23 17:19:34,781 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-23 17:19:34,784 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-23 17:19:34,785 - ocr_app - INFO - [lifespan:668] Disk free          : 90.0 GB
+2026-03-23 17:19:34,789 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-23 17:19:38,369 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-23 17:19:38,373 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-23 17:19:38,379 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-23 17:19:38,382 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-23 17:27:48,951 - ocr_app - INFO - [process_document:903] [2d3d5acaeb23d762] [Job d175777eb458ba53] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:27:50,878 - ocr_app - INFO - [process_document:925] [Job d175777eb458ba53] Dispatched to Celery ocr_queue
+2026-03-23 17:27:50,907 - ocr_app - INFO - [process_document:903] [39d72f162a0e3a79] [Job 30aa6a49dd7d02a4] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:27:50,918 - ocr_app - INFO - [process_document:925] [Job 30aa6a49dd7d02a4] Dispatched to Celery ocr_queue
+2026-03-23 17:31:04,761 - ocr_app - INFO - [process_document:903] [485bc5b98a961322] [Job 5ecae3421bcd065e] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:31:04,811 - ocr_app - INFO - [process_document:925] [Job 5ecae3421bcd065e] Dispatched to Celery ocr_queue
+2026-03-23 17:31:04,849 - ocr_app - INFO - [process_document:903] [4bd0ca2d6365c172] [Job 82ccf146b3dd7621] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:31:04,882 - ocr_app - INFO - [process_document:925] [Job 82ccf146b3dd7621] Dispatched to Celery ocr_queue
+2026-03-23 17:31:05,029 - ocr_app - INFO - [process_document:903] [2315553e6916452d] [Job 1d2d8a88be43153e] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:31:05,081 - ocr_app - INFO - [process_document:925] [Job 1d2d8a88be43153e] Dispatched to Celery ocr_queue
+2026-03-23 17:31:05,085 - ocr_app - INFO - [process_document:903] [9b1438536e0b6ff4] [Job 68e4de71d875042c] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:31:05,148 - ocr_app - INFO - [process_document:925] [Job 68e4de71d875042c] Dispatched to Celery ocr_queue
+2026-03-23 17:31:05,165 - ocr_app - INFO - [process_document:903] [53ec1fe1f31ddf9f] [Job c7368d3671ef77ee] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:31:05,234 - ocr_app - INFO - [process_document:925] [Job c7368d3671ef77ee] Dispatched to Celery ocr_queue
+2026-03-23 17:34:58,102 - ocr_app - INFO - [process_document:903] [a244acab4ef8576a] [Job de40bd05e2d2837e] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:34:58,121 - ocr_app - INFO - [process_document:925] [Job de40bd05e2d2837e] Dispatched to Celery ocr_queue
+2026-03-23 17:34:59,255 - ocr_app - INFO - [process_document:903] [35e8616252dd8d6b] [Job 77bbd630466555f7] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:34:59,286 - ocr_app - INFO - [process_document:925] [Job 77bbd630466555f7] Dispatched to Celery ocr_queue
+2026-03-23 17:34:59,286 - ocr_app - INFO - [process_document:903] [6c611b51c85a688b] [Job c0fbc4936107b74c] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:34:59,320 - ocr_app - INFO - [process_document:925] [Job c0fbc4936107b74c] Dispatched to Celery ocr_queue
+2026-03-23 17:34:59,320 - ocr_app - INFO - [process_document:903] [601b4833dd5e56ec] [Job f047c4a0390b669f] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:34:59,341 - ocr_app - INFO - [process_document:925] [Job f047c4a0390b669f] Dispatched to Celery ocr_queue
+2026-03-23 17:34:59,343 - ocr_app - INFO - [process_document:903] [0eb6fbd78c026bbd] [Job 1fba6e14a03f118d] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:34:59,402 - ocr_app - INFO - [process_document:925] [Job 1fba6e14a03f118d] Dispatched to Celery ocr_queue
+2026-03-23 17:34:59,501 - ocr_app - INFO - [process_document:903] [91e4d1456a20ff2f] [Job 112890e0bb6a7f9a] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:34:59,539 - ocr_app - INFO - [process_document:925] [Job 112890e0bb6a7f9a] Dispatched to Celery ocr_queue
+2026-03-23 17:34:59,545 - ocr_app - INFO - [process_document:903] [98de47c0b420a8e7] [Job e4091e1780f08168] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:34:59,582 - ocr_app - INFO - [process_document:925] [Job e4091e1780f08168] Dispatched to Celery ocr_queue
+2026-03-23 17:34:59,600 - ocr_app - INFO - [process_document:903] [6e9308537d19213c] [Job 7968141953af8cdf] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:34:59,660 - ocr_app - INFO - [process_document:925] [Job 7968141953af8cdf] Dispatched to Celery ocr_queue
+2026-03-23 17:34:59,677 - ocr_app - INFO - [process_document:903] [ad7cb6214813553a] [Job 0bcb9bb78f99df82] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:34:59,704 - ocr_app - INFO - [process_document:925] [Job 0bcb9bb78f99df82] Dispatched to Celery ocr_queue
+2026-03-23 17:34:59,712 - ocr_app - INFO - [process_document:903] [fb331090e2b18a9c] [Job b1425f8e0ebd08be] Received: saudi_2030.pdf (0.06 MB)
+2026-03-23 17:34:59,721 - ocr_app - INFO - [process_document:925] [Job b1425f8e0ebd08be] Dispatched to Celery ocr_queue
+2026-03-23 19:53:36,540 - ocr_app - INFO - [lifespan:691] Shutting down...
+2026-03-23 19:53:36,548 - ocr_app - INFO - [lifespan:699] Shutdown complete.
+2026-03-26 12:23:59,394 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-26 12:23:59,418 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-26 12:23:59,436 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-26 12:23:59,459 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-26 12:23:59,491 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-26 12:23:59,528 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-26 12:23:59,546 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-26 12:23:59,577 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-26 12:23:59,605 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-26 12:23:59,623 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-26 12:23:59,637 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-26 12:23:59,655 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-26 12:23:59,675 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-26 12:23:59,689 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-26 12:23:59,706 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-26 12:23:59,726 - ocr_app - INFO - [lifespan:668] Disk free          : 89.6 GB
+2026-03-26 12:23:59,762 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-26 12:24:14,327 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-26 12:24:14,334 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-26 12:24:14,340 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-26 12:24:14,345 - ocr_app - INFO - [lifespan:687] ============================================================
+2026-03-26 12:32:33,972 - ocr_app - INFO - [process_document:903] [091aac9f190280a4] [Job b3243ce6c66246b6] Received: Fastapi_Documentation.pdf (0.33 MB)
+2026-03-26 12:32:35,821 - ocr_app - INFO - [process_document:925] [Job b3243ce6c66246b6] Dispatched to Celery ocr_queue
+2026-03-26 14:37:00,841 - ocr_app - INFO - [process_document:903] [ccc3592e8443ce93] [Job 92b1124c4e66e97e] Received: saudi_2030.pdf (0.06 MB)
+2026-03-26 14:37:00,991 - ocr_app - INFO - [process_document:925] [Job 92b1124c4e66e97e] Dispatched to Celery ocr_queue
+2026-03-26 14:37:01,004 - ocr_app - INFO - [process_document:903] [a8ed98d158762ca7] [Job dc55a2a61ac2e888] Received: saudi_2030.pdf (0.06 MB)
+2026-03-26 14:37:01,017 - ocr_app - INFO - [process_document:925] [Job dc55a2a61ac2e888] Dispatched to Celery ocr_queue
+2026-03-30 15:38:34,702 - ocr_app - INFO - [lifespan:643] ============================================================
+2026-03-30 15:38:34,706 - ocr_app - INFO - [lifespan:644] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-03-30 15:38:34,708 - ocr_app - INFO - [lifespan:645] ============================================================
+2026-03-30 15:38:34,710 - ocr_app - INFO - [compute_optimal_workers:449] [ResourceMonitor] Workers: RAM=7.8GB ram_limit=2 cpu_limit=4 optimal=2
+2026-03-30 15:38:34,713 - ocr_app - INFO - [lifespan:651] Reference workers  : 2
+2026-03-30 15:38:34,715 - ocr_app - INFO - [lifespan:652] Output Directory   : C:\Users\Asus\Downloads\llm-customocr-pipeline-upd(latency fix)\ocr-pipeline-fastapi-Latency-optimization\output
+2026-03-30 15:38:34,728 - ocr_app - INFO - [lifespan:653] Max Upload Size    : 500 MB
+2026-03-30 15:38:34,755 - ocr_app - INFO - [lifespan:654] Job Retention      : 24 hours
+2026-03-30 15:38:34,763 - ocr_app - INFO - [lifespan:655] Rate Limit         : 0 req/min/IP
+2026-03-30 15:38:34,766 - ocr_app - INFO - [lifespan:656] Max Queue Depth    : 50
+2026-03-30 15:38:34,769 - ocr_app - INFO - [lifespan:657] Redis Broker       : redis://localhost:6379/0
+2026-03-30 15:38:34,777 - ocr_app - INFO - [lifespan:658] PostgreSQL         : configured
+2026-03-30 15:38:34,780 - ocr_app - INFO - [lifespan:662] Auth Tokens        : 3 configured
+2026-03-30 15:38:34,786 - ocr_app - INFO - [lifespan:666] RAM                : 7.8 GB
+2026-03-30 15:38:34,792 - ocr_app - INFO - [lifespan:667] CPU cores          : 4
+2026-03-30 15:38:34,795 - ocr_app - INFO - [lifespan:668] Disk free          : 89.5 GB
+2026-03-30 15:38:34,800 - ocr_app - INFO - [lifespan:674] Output directory   : Writable OK
+2026-03-30 15:38:40,696 - ocr_app - INFO - [_get_pg_engine:222] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-03-30 15:38:40,702 - ocr_app - INFO - [lifespan:685] ============================================================
+2026-03-30 15:38:40,710 - ocr_app - INFO - [lifespan:686] API Ready. Accepting requests.
+2026-03-30 15:38:40,712 - ocr_app - INFO - [lifespan:687] ============================================================

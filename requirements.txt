@@ -220,3 +220,25 @@ bce-python-sdk==0.9.56
 Brotli==1.1.0
 brotlicffi==1.1.0.0
 zstandard==0.25.0
+
+# ==============================================================================
+# NEW packages to ADD to your existing requirements.txt
+# Only these 5 lines need to be added — everything else stays the same.
+# ==============================================================================
+ 
+# Celery with Redis transport support
+celery[redis]>=5.4.0
+ 
+# Redis Python client (Celery dependency, also used directly)
+redis>=5.0.0
+ 
+# gevent: green thread pool for I/O-bound Celery workers
+# 24 greenlets ≈ 50 MB vs 24 OS threads ≈ 200 MB
+gevent>=24.2.1
+ 
+# Flower: Celery monitoring web dashboard (port 5555)
+flower>=2.0.0
+ 
+# SQLAlchemy: only needed if POSTGRES_URL is set in .env
+# Safe to include even if Postgres is not used — it is never imported unless needed
+sqlalchemy>=2.0.0
