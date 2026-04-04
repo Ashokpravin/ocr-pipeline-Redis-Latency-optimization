@@ -94,6 +94,7 @@ class DLA:
 
     def _init_paddle_model(self, model_name: str = "PP-DocLayout_plus-L"):
         self.psession = LayoutDetection(model_name=model_name)
+        self._infer_lock = threading.Lock()  # Prevent concurrent C++ inference crashes
         self.map_labels = {
             "paragraph_title": "text",  "image":      "figure",
             "text":            "text",  "number":     "text",
@@ -169,12 +170,19 @@ class DLA:
                          Capped at 4: PaddleOCR uses internal resources and
                          more threads cause contention beyond this point.
         """
-        self._clean_previous_results()
-
-        if not self.files_list:
-            return
-
+        # Pre-allocate result slots BEFORE threads start (prevents IndexError on self.results[idx])
+        # _clean_previous_results() was wiping results=[] which caused the IndexError
         n_pages     = len(self.files_list)
+        if n_pages == 0:
+            return
+        self.results          = [None] * n_pages
+        self.cropped_objects  = [None] * n_pages
+        self.annotated_images = []
+        # Clean stale output dirs
+        dirs = self._get_dir_paths()
+        if dirs["cropped"].exists(): shutil.rmtree(dirs["cropped"])
+        if dirs["labeled"].exists(): shutil.rmtree(dirs["labeled"])
+
         n_workers   = max_workers or min(os.cpu_count() or 2, n_pages, 4)
 
         logger.info(f"[DLA] Analyzing {n_pages} pages (workers={n_workers})...")
@@ -188,7 +196,8 @@ class DLA:
                 return page_index, sv.Detections.empty(), {"objects": [], "inc_mat": None}
 
             # 1. Inference
-            raw_output = self.psession.predict(img, layout_nms=False, threshold=conf)[0]
+            with self._infer_lock:  # Serialise C++ inference — PaddleOCR is not thread-safe
+                raw_output = self.psession.predict(img, layout_nms=False, threshold=conf)[0]
             detections = self._convert_pp_to_sv(raw_output, img.shape)
 
             # 2. Filter + Merge

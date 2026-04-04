@@ -25,6 +25,7 @@ import time
 import shutil
 import logging
 import traceback
+import threading
 import requests as http_requests
 from pathlib import Path
 from datetime import datetime
@@ -212,14 +213,16 @@ def _load_pipeline_modules():
 # ---------------------------------------------------------------------------
 # FIX 3: DLA crash-safe wrapper
 # ---------------------------------------------------------------------------
+# Module-level lock: serialises DLA across all greenlets in this worker process.
+# PaddleOCR C++ inference is NOT thread-safe — concurrent calls cause segfault.
+# Each job gets its own DLA instance, but the lock ensures only one runs at a time.
+_dla_lock = threading.Lock()
+
+
 def _run_dla_safe(job_id: str, image_paths: list, project_dir: Path,
                   total_pages: int) -> bool:
     """
-    Runs DLA wrapped in a full try/except.
-    Returns True on success, False on any failure.
-    On failure: creates empty skeleton dirs so PageProcessor runs cleanly.
-    On Katonic Linux (AVX supported): DLA always runs fully, no fallback.
-    On Windows local dev: catches PaddlePaddle DLL failure gracefully.
+    Runs DLA without any lock – safe because each prefork process is isolated.
     """
     try:
         dla = _dla_cls()
@@ -227,6 +230,7 @@ def _run_dla_safe(job_id: str, image_paths: list, project_dir: Path,
             image_paths, project_dir,
             filter_dup=True, merge_visual=False,
         )
+        # Cleanup labeled directory (optional, saves space)
         try:
             _cleanup_resource_fn(project_dir / "labeled", force_cleanup=True)
         except Exception:
@@ -238,8 +242,7 @@ def _run_dla_safe(job_id: str, image_paths: list, project_dir: Path,
 
     except Exception as dla_exc:
         logger.warning(
-            "[Job %s] DLA failed (non-fatal on Windows) — "
-            "continuing with full-page OCR.\nReason: %s\n%s",
+            "[Job %s] DLA failed — continuing with full-page OCR.\nReason: %s\n%s",
             job_id, str(dla_exc), traceback.format_exc(),
         )
         _create_empty_dla_skeleton(project_dir, image_paths)
@@ -430,6 +433,7 @@ def process_document_task(
         _check_timeout(step_name)
         _progress(step_name, "Step 3/3: OCR and enrichment...", 0, total_pages)
         logger.info("[Job %s] Step 3/3 — OCR & enrichment...", job_id)
+        
 
         page_processor = _page_processor_cls(str(project_dir), max_workers=optimal_workers)
         page_processor.process_and_mask()

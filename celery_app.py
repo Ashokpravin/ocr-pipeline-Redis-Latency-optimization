@@ -39,7 +39,7 @@ else:
 # ---------------------------------------------------------------------------
 REDIS_URL          = os.getenv("REDIS_URL",          "redis://localhost:6379/0")
 REDIS_RESULT_URL   = os.getenv("REDIS_RESULT_URL",   "redis://localhost:6379/1")
-CELERY_CONCURRENCY = int(os.getenv("CELERY_CONCURRENCY", "24"))
+CELERY_CONCURRENCY = int(os.getenv("CELERY_CONCURRENCY", "8"))
 
 # ---------------------------------------------------------------------------
 # Celery application
@@ -53,13 +53,13 @@ celery_app = Celery(
 
 celery_app.conf.update(
     worker_concurrency=CELERY_CONCURRENCY,
-    worker_pool="gevent",
+    worker_pool="prefork",
     task_acks_late=True,
     worker_prefetch_multiplier=1,
     task_time_limit=600,
     task_soft_time_limit=540,
     task_reject_on_worker_lost=True,
-    worker_max_tasks_per_child=100,
+    worker_max_tasks_per_child=50,
     result_expires=86400,
     task_ignore_result=False,
     task_serializer="json",
