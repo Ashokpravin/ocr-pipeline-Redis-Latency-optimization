@@ -19,6 +19,8 @@ echo "=============================================="
 # -------------------------------------------------
 # STEP 0: Set environment variables for LibreOffice
 # -------------------------------------------------
+export OCR_OUTPUT_DIR=/app/output
+mkdir -p /app/output/completed
 export SAL_USE_VCLPLUGIN=gen
 export SAL_DISABLE_COMPONENTCONTEXT=1
 export JAVA_HOME=""

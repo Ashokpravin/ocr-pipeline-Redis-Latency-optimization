@@ -23,7 +23,7 @@ ENV HOME=/root
 ENV PADDLEX_HOME=/root/.paddlex
 ENV GLOG_v=0
 
-WORKDIR /src
+WORKDIR /app
 
 # System dependencies + LibreOffice (critical for .docx/.pptx/.xlsx)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -101,7 +101,8 @@ RUN ls -la /root/.paddlex/official_models/PP-DocLayout_plus-L/inference.yml 2>/d
     || echo "⚠ DLA model missing (will download on first use)"
 
 # Create output directory
-RUN mkdir -p /src/output/completed
+RUN mkdir -p /app/output/completed
+ENV PYTHONPATH=/app
 
 EXPOSE 8050
 
