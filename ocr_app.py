@@ -83,7 +83,7 @@ _legacy = os.getenv("API_AUTH_TOKEN", "").strip()
 if _legacy:
     VALID_TOKENS.add(_legacy)
 
-BASE_OUTPUT_DIR       = Path(os.getenv("OCR_OUTPUT_DIR", "/code/output")).resolve()
+BASE_OUTPUT_DIR       = Path(os.getenv("OCR_OUTPUT_DIR", "/app/output")).resolve()
 MAX_UPLOAD_SIZE_MB    = int(os.getenv("MAX_UPLOAD_SIZE_MB",    "500"))
 MAX_UPLOAD_SIZE_BYTES = MAX_UPLOAD_SIZE_MB * 1024 * 1024
 UPLOAD_CHUNK_SIZE     = 1024 * 1024

@@ -51,7 +51,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-BASE_OUTPUT_DIR   = Path(os.getenv("OCR_OUTPUT_DIR", "./output")).resolve()
+BASE_OUTPUT_DIR   = Path(os.getenv("OCR_OUTPUT_DIR", "/app/output")).resolve()
 COMPLETED_DIR     = BASE_OUTPUT_DIR / "completed"
 COMPLETED_DIR.mkdir(parents=True, exist_ok=True)
 
