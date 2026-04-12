@@ -118,7 +118,7 @@ mkdir -p "${OCR_OUTPUT_DIR:-/app/output}/completed"
 echo "  Output dir: ${OCR_OUTPUT_DIR:-/app/output}"
 
 echo "=============================================="
-echo " Starting Celery Worker (gevent, C=24)..."
+echo " Starting Celery Worker (prefork, C=24)..."
 echo "=============================================="
 
 # Start Celery worker

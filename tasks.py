@@ -216,7 +216,6 @@ def _load_pipeline_modules():
 # Module-level lock: serialises DLA across all greenlets in this worker process.
 # PaddleOCR C++ inference is NOT thread-safe — concurrent calls cause segfault.
 # Each job gets its own DLA instance, but the lock ensures only one runs at a time.
-_dla_lock = threading.Lock()
 
 
 def _run_dla_safe(job_id: str, image_paths: list, project_dir: Path,
