@@ -37,8 +37,8 @@ else:
 # ---------------------------------------------------------------------------
 # Redis connections
 # ---------------------------------------------------------------------------
-REDIS_URL          = os.getenv("REDIS_URL",          "redis://localhost:6379/0")
-REDIS_RESULT_URL   = os.getenv("REDIS_RESULT_URL",   "redis://localhost:6379/1")
+REDIS_URL          = os.getenv("REDIS_URL",          "redis://redis.app-dependencies.svc.cluster.local:6379/0")
+REDIS_RESULT_URL   = os.getenv("REDIS_RESULT_URL",   "redis://redis.app-dependencies.svc.cluster.local:6379/1")
 CELERY_CONCURRENCY = int(os.getenv("CELERY_CONCURRENCY", "8"))
 
 # ---------------------------------------------------------------------------
