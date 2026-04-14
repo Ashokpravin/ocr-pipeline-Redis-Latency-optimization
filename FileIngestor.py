@@ -163,23 +163,41 @@ class FileIngestor:
     # =========================================================================
 
     def _convert_office_to_pdf(self, input_path: Path, out_dir: Path) -> Path:
+        """
+        Convert an Office file to PDF using LibreOffice.
+
+        ROOT CAUSE OF PREVIOUS FAILURES:
+        LibreOffice --convert-to silently produces no output when either the
+        input path or --outdir path contains spaces. Python subprocess passes
+        args correctly, but LibreOffice's internal path tokeniser splits on
+        spaces. Since our job dirs are named after the uploaded filename
+        (e.g. "Proposed Changes to Web Scraping Pipeline.pptx_dla"), any
+        file with spaces in its name fails silently every time.
+
+        FIX: Run LibreOffice entirely inside a short, space-free temp dir.
+          1. Copy input  →  /tmp/lo_<pid>_<ts>/src.<ext>   (no spaces)
+          2. --outdir    →  /tmp/lo_<pid>_<ts>/             (no spaces)
+          3. Move result →  expected_pdf (in the original out_dir)
+        """
         expected_pdf = out_dir / input_path.with_suffix(".pdf").name
         if expected_pdf.exists():
             return expected_pdf
         out_dir.mkdir(parents=True, exist_ok=True)
 
-        # Create an isolated profile per conversion (prevents parallel worker
-        # lock conflicts on ~/.config/libreoffice).
         import time
-        lo_profile = Path(f"/tmp/lo_profile_{os.getpid()}_{int(time.time()*1000)}")
+        # Space-free working directory for this conversion
+        lo_work = Path(f"/tmp/lo_{os.getpid()}_{int(time.time()*1000)}")
+        lo_work.mkdir(parents=True, exist_ok=True)
 
-        # ── CRITICAL: write Java-disable config INTO the temp profile ──────────
-        # --user-installation creates a fresh empty profile. That profile has
-        # Java ENABLED by default. In a container without Java, LibreOffice
-        # tries to launch javaldx, fails, and silently aborts the conversion
-        # (exits 0, produces no PDF). We must disable Java in EVERY temp profile.
+        # Copy input to a space-free name so LO path tokeniser never sees spaces
+        safe_input = lo_work / f"input{input_path.suffix.lower()}"
+        shutil.copy2(input_path, safe_input)
+
+        # Isolated LO user profile (prevents parallel worker lock conflicts)
+        lo_profile = lo_work / "profile"
         lo_user_dir = lo_profile / "4" / "user"
         lo_user_dir.mkdir(parents=True, exist_ok=True)
+        # Disable Java in this profile (belt-and-suspenders alongside env vars)
         (lo_user_dir / "registrymodifications.xcu").write_text(
             '<?xml version="1.0" encoding="UTF-8"?>\n'
             '<oor:items xmlns:oor="http://openoffice.org/2001/registry"\n'
@@ -195,19 +213,31 @@ class FileIngestor:
             '</oor:items>\n',
             encoding="utf-8"
         )
-        # ────────────────────────────────────────────────────────────────────────
+
+        # Also disable Java at the OS env level — takes effect before LO
+        # reads any config file, so it cannot be overridden by profile init.
+        lo_env = os.environ.copy()
+        lo_env["JAVA_HOME"] = ""
+        lo_env["JFW_PLUGIN_DO_NOT_CHECK_ACCESSIBILITY"] = "1"
+        lo_env["SAL_USE_VCLPLUGIN"] = "gen"
+        lo_env["SAL_DISABLE_COMPONENTCONTEXT"] = "1"
 
         lo_profile_url = lo_profile.as_uri()
+        # LO will write:  lo_work/input.pdf  (matches safe_input stem + .pdf)
+        lo_output = lo_work / f"input.pdf"
 
         cmd = [
             self.soffice_cmd, "--headless", "--norestore",
             f"--user-installation={lo_profile_url}",
-            "--convert-to", "pdf", "--outdir", str(out_dir), str(input_path)
+            "--convert-to", "pdf",
+            "--outdir", str(lo_work),   # space-free outdir
+            str(safe_input),            # space-free input path
         ]
         try:
             result = subprocess.run(
                 cmd,
                 check=False,
+                env=lo_env,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 timeout=120
@@ -221,15 +251,20 @@ class FileIngestor:
                 and "Warning:" not in line
             ]
             if real_errors:
-                logger.warning("[LibreOffice] stderr: %s", "\n".join(real_errors))
+                import logging as _logging
+                _logging.getLogger(__name__).warning(
+                    "[LibreOffice] stderr: %s", "\n".join(real_errors)
+                )
 
         except subprocess.TimeoutExpired:
+            shutil.rmtree(lo_work, ignore_errors=True)
             raise RuntimeError("LibreOffice conversion timed out after 120s")
-        finally:
-            try:
-                shutil.rmtree(lo_profile, ignore_errors=True)
-            except Exception:
-                pass
+
+        # Move the PDF out of the space-free work dir to the expected location
+        if lo_output.exists():
+            shutil.move(str(lo_output), str(expected_pdf))
+
+        shutil.rmtree(lo_work, ignore_errors=True)
 
         if not expected_pdf.exists():
             stderr_text = result.stderr.decode(errors="replace").strip() if 'result' in dir() else ""
