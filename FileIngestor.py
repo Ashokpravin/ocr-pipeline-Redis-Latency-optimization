@@ -199,16 +199,6 @@ class FileIngestor:
 
         lo_profile_url = lo_profile.as_uri()
 
-        # Pass env vars directly to the subprocess so Java is disabled
-        # at the OS level — this works regardless of LO profile structure.
-        # Env-var approach is more reliable than registrymodifications.xcu
-        # because it takes effect before LO reads or writes any config file.
-        lo_env = os.environ.copy()
-        lo_env["JAVA_HOME"] = ""
-        lo_env["JFW_PLUGIN_DO_NOT_CHECK_ACCESSIBILITY"] = "1"
-        lo_env["SAL_USE_VCLPLUGIN"] = "gen"
-        lo_env["SAL_DISABLE_COMPONENTCONTEXT"] = "1"
-
         cmd = [
             self.soffice_cmd, "--headless", "--norestore",
             f"--user-installation={lo_profile_url}",
@@ -218,7 +208,6 @@ class FileIngestor:
             result = subprocess.run(
                 cmd,
                 check=False,
-                env=lo_env,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 timeout=120
@@ -232,10 +221,7 @@ class FileIngestor:
                 and "Warning:" not in line
             ]
             if real_errors:
-                import logging as _logging
-                _logging.getLogger(__name__).warning(
-                    "[LibreOffice] stderr: %s", "\n".join(real_errors)
-                )
+                logger.warning("[LibreOffice] stderr: %s", "\n".join(real_errors))
 
         except subprocess.TimeoutExpired:
             raise RuntimeError("LibreOffice conversion timed out after 120s")
