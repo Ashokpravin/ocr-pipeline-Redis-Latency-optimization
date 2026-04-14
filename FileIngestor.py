@@ -177,9 +177,9 @@ class FileIngestor:
         lo_profile_url = lo_profile.as_uri()
 
         cmd = [
-            self.soffice_cmd, "--headless", "--norestore",
-            f"--user-installation={lo_profile_url}",
-            "--convert-to", "pdf", "--outdir", str(out_dir), str(input_path)
+        self.soffice_cmd, "--headless", "--norestore", "--nojava",
+        f"--user-installation={lo_profile_url}",
+        "--convert-to", "pdf", "--outdir", str(out_dir), str(input_path)
         ]
         try:
             result = subprocess.run(
