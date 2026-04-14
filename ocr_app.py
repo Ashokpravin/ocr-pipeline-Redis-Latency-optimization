@@ -45,7 +45,7 @@ from fastapi import (
     Request, Depends, Security
 )
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, Response
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 import aiofiles
@@ -102,6 +102,10 @@ REDIS_URL             = os.getenv("REDIS_URL",        "redis://localhost:6379/0"
 REDIS_RESULT_URL      = os.getenv("REDIS_RESULT_URL", "redis://localhost:6379/1")
 POSTGRES_URL          = os.getenv("POSTGRES_URL",     "").strip()
 FLOWER_PORT           = int(os.getenv("FLOWER_PORT",  "5555"))
+import redis as _redis_lib
+_upload_redis = _redis_lib.from_url(REDIS_URL, decode_responses=False)
+UPLOAD_TTL_SEC = int(os.getenv("UPLOAD_TTL_SEC", "7200"))   # 2 hours default
+RESULT_TTL_SEC = int(os.getenv("RESULT_TTL_SEC", "86400"))  # 24 hours default
 
 ALLOWED_EXTENSIONS: Set[str] = {
     ".pdf", ".docx", ".doc", ".pptx", ".ppt", ".xlsx", ".odp", ".odt",
@@ -868,37 +872,31 @@ async def process_document(
                 )
 
         job_id     = secrets.token_hex(8)
-        job_dir    = BASE_OUTPUT_DIR / job_id
-        job_dir.mkdir(exist_ok=True)
-        input_path = job_dir / safe_filename
-
-        total_size = 0
+        # Read file into memory (no disk write needed)
         try:
-            async with aiofiles.open(input_path, "wb") as out:
-                while True:
-                    chunk = await file.read(UPLOAD_CHUNK_SIZE)
-                    if not chunk:
-                        break
-                    total_size += len(chunk)
-                    if total_size > MAX_UPLOAD_SIZE_BYTES:
-                        await out.close()
-                        input_path.unlink(missing_ok=True)
-                        raise HTTPException(
-                            status_code=413,
-                            detail=(f"File exceeds {MAX_UPLOAD_SIZE_MB}MB limit "
-                                    f"(received {total_size / 1024 / 1024:.1f}MB)"),
-                        )
-                    await out.write(chunk)
-        except HTTPException:
-            raise
+            file_bytes = await file.read()
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Failed to read file: {e}")
         finally:
             await file.close()
 
+        total_size = len(file_bytes)
         if total_size == 0:
-            input_path.unlink(missing_ok=True)
             raise HTTPException(status_code=400, detail="Empty file uploaded.")
+        if total_size > MAX_UPLOAD_SIZE_BYTES:
+            raise HTTPException(
+                status_code=413,
+                detail=(f"File exceeds {MAX_UPLOAD_SIZE_MB}MB limit "
+                        f"(received {total_size / 1024 / 1024:.1f}MB)"),
+            )
+
+        # Store file bytes in Redis — Celery worker reads from here
+        _upload_redis.setex(
+            name=f"upload:{job_id}",
+            time=UPLOAD_TTL_SEC,
+            value=file_bytes,
+        )
+        del file_bytes 
 
         logger.info("[%s] [Job %s] Received: %s (%.2f MB)",
                     request_id, job_id, safe_filename, total_size / 1024 / 1024)
@@ -915,11 +913,8 @@ async def process_document(
             "created_at":        now,
             "updated_at":        now,
         })
-
-        # Pass real absolute paths directly — works for both local Windows dev
-        # and Katonic deployment (shared filesystem, same absolute path in all processes).
         process_document_task.apply_async(
-            args=[job_id, str(input_path), str(job_dir), file.filename],
+            args=[job_id, safe_filename],   # NO file paths — just IDs
             task_id=job_id,
         )
         logger.info("[Job %s] Dispatched to Celery ocr_queue", job_id)
@@ -933,8 +928,6 @@ async def process_document(
     except HTTPException:
         raise
     except Exception as e:
-        if job_dir and job_dir.exists():
-            cleanup_job_directory(job_dir)
         if job_id:
             job_store.delete(job_id)
         logger.error("[%s] Upload failed: %s", request_id, str(e))
@@ -1022,25 +1015,20 @@ async def download_markdown(job_id: str, token: str = Depends(verify_token)):
             detail=f"Job failed: {celery_data.get('error', 'Unknown error')}"
         )
 
+    # Read result from Redis instead of disk
     meta        = job_store.get(job_id)
-    result_path = None
-    if meta and meta.get("result_path") and os.path.exists(meta["result_path"]):
-        result_path = meta["result_path"]
-    else:
-        matching = list(COMPLETED_DIR.glob(f"{job_id}_*.md"))
-        if matching:
-            result_path = str(matching[0])
+    result_bytes = _upload_redis.get(f"result:{job_id}")
 
-    if not result_path or not os.path.exists(result_path):
-        raise HTTPException(status_code=404, detail="Result file not found.")
+    if not result_bytes:
+        raise HTTPException(status_code=404, detail="Result not found or expired (24hr limit).")
 
     filename     = meta["filename"] if meta else job_id
     ascii_name   = f"{job_id}.md"
     full_name    = f"{job_id}_{filename}.md"
     encoded_name = urllib.parse.quote(full_name, safe="")
 
-    return FileResponse(
-        path=result_path,
+    return Response(
+        content=result_bytes,
         media_type="text/markdown",
         headers={
             "Content-Disposition": (
@@ -1049,7 +1037,6 @@ async def download_markdown(job_id: str, token: str = Depends(verify_token)):
             )
         },
     )
-
 
 @app.get("/jobs")
 async def list_jobs(
@@ -1100,6 +1087,7 @@ async def delete_job(job_id: str, token: str = Depends(verify_token)):
         except OSError as e:
             logger.warning("[Job %s] Delete result file failed: %s", job_id, str(e))
     job_store.delete(job_id)
+    _upload_redis.delete(f"result:{job_id}")
     return {"message": f"Job {job_id} deleted successfully"}
 
 

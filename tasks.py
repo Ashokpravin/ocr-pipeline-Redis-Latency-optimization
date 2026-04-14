@@ -60,6 +60,8 @@ SYSTEM_RESERVE_GB = float(os.getenv("SYSTEM_RESERVE_GB", "4.0"))
 MAX_JOB_DURATION  = int(os.getenv("MAX_JOB_DURATION",   "3600"))
 WEBHOOK_URL       = os.getenv("WEBHOOK_CALLBACK_URL", "").strip()
 POSTGRES_URL      = os.getenv("POSTGRES_URL", "").strip()
+BASE_REDIS_URL = os.getenv("REDIS_URL", "redis://redis.app-dependencies.svc.cluster.local:6379/0")
+RESULT_TTL_SEC = int(os.getenv("RESULT_TTL_SEC", "86400"))  # 24 hours
 
 # ---------------------------------------------------------------------------
 # PostgreSQL — direct write from worker
@@ -329,26 +331,37 @@ class OCRTask(Task):
 def process_document_task(
     self,
     job_id: str,
-    file_path_str: str,
-    job_dir_str: str,
     original_filename: str = "",
 ) -> dict:
-    """
-    Full 3-step OCR pipeline as a Celery task.
+    import redis as _redis_lib
+    import tempfile
 
-    Step 1 — FileIngestor  : document to page images
-    Step 2 — DLA           : layout analysis  [crash-safe on Windows]
-    Step 3 — PageProcessor : masking + OCR + enrichment
+    # Read file bytes from Redis
+    _rc = _redis_lib.from_url(BASE_REDIS_URL, decode_responses=False)
+    file_bytes = _rc.get(f"upload:{job_id}")
 
-    Writes result to PostgreSQL directly on completion or failure.
-    """
-    _load_pipeline_modules()
+    if not file_bytes:
+        raise FileNotFoundError(
+            f"Upload bytes not found in Redis for job {job_id}. "
+            f"Either expired (>{RESULT_TTL_SEC//3600}hr TTL) or never arrived."
+        )
 
-    file_path = Path(file_path_str)
-    job_dir   = Path(job_dir_str)
+    # Write to local /tmp — no shared disk needed
+    job_dir   = Path(tempfile.mkdtemp(prefix=f"ocr_{job_id}_"))
+    safe_name = original_filename or f"{job_id}.bin"
+    input_path = job_dir / safe_name
+    input_path.write_bytes(file_bytes)
+    del file_bytes  # free memory immediately
+
+    # Delete from Redis right away — worker has the file now
+    _rc.delete(f"upload:{job_id}")
+
+    filename = original_filename or input_path.name
+    file_path = input_path
     step_name = "initialization"
     job_start = time.time()
-    filename  = original_filename or file_path.name
+
+    _load_pipeline_modules()
 
     def _elapsed() -> float:
         return round(time.time() - job_start, 2)
@@ -451,8 +464,13 @@ def process_document_task(
         # Copy result + cleanup
         # =================================================================
         step_name    = "result_copy"
-        completed_md = COMPLETED_DIR / f"{job_id}_{file_path.stem}.md"
-        shutil.copy2(final_md_path, completed_md)
+        result_bytes = Path(final_md_path).read_bytes()
+        _rc.setex(
+            name=f"result:{job_id}",
+            time=RESULT_TTL_SEC,
+            value=result_bytes,
+        )
+        completed_md = Path(final_md_path)
 
         del page_processor
         gc.collect()
