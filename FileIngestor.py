@@ -168,12 +168,35 @@ class FileIngestor:
             return expected_pdf
         out_dir.mkdir(parents=True, exist_ok=True)
 
-        # Each conversion gets its own isolated LibreOffice profile directory.
-        # Without this, parallel prefork workers fight over ~/.config/libreoffice
-        # lock files and LibreOffice silently exits producing no PDF.
+        # Create an isolated profile per conversion (prevents parallel worker
+        # lock conflicts on ~/.config/libreoffice).
         import time
         lo_profile = Path(f"/tmp/lo_profile_{os.getpid()}_{int(time.time()*1000)}")
-        lo_profile.mkdir(parents=True, exist_ok=True)
+
+        # ── CRITICAL: write Java-disable config INTO the temp profile ──────────
+        # --user-installation creates a fresh empty profile. That profile has
+        # Java ENABLED by default. In a container without Java, LibreOffice
+        # tries to launch javaldx, fails, and silently aborts the conversion
+        # (exits 0, produces no PDF). We must disable Java in EVERY temp profile.
+        lo_user_dir = lo_profile / "4" / "user"
+        lo_user_dir.mkdir(parents=True, exist_ok=True)
+        (lo_user_dir / "registrymodifications.xcu").write_text(
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<oor:items xmlns:oor="http://openoffice.org/2001/registry"\n'
+            '           xmlns:xs="http://www.w3.org/2001/XMLSchema"\n'
+            '           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n'
+            '  <item oor:path="/org.openoffice.Office.Common/Java">\n'
+            '    <node oor:name="ooSetupNode" oor:op="fuse">\n'
+            '      <prop oor:name="Enable" oor:type="xs:boolean">\n'
+            '        <value>false</value>\n'
+            '      </prop>\n'
+            '    </node>\n'
+            '  </item>\n'
+            '</oor:items>\n',
+            encoding="utf-8"
+        )
+        # ────────────────────────────────────────────────────────────────────────
+
         lo_profile_url = lo_profile.as_uri()
 
         cmd = [
@@ -181,10 +204,6 @@ class FileIngestor:
             f"--user-installation={lo_profile_url}",
             "--convert-to", "pdf", "--outdir", str(out_dir), str(input_path)
         ]
-        # CRITICAL: Do NOT use check=True here.
-        # LibreOffice exits with code 1 when Java is unavailable (container env),
-        # even when the PDF conversion fully succeeds. The java warning is harmless.
-        # We check success by whether the output PDF file was actually created.
         try:
             result = subprocess.run(
                 cmd,
@@ -194,7 +213,6 @@ class FileIngestor:
                 timeout=120
             )
             stderr_text = result.stderr.decode(errors="replace").strip()
-            # Only log stderr if it contains something beyond the java warning
             real_errors = [
                 line for line in stderr_text.splitlines()
                 if line.strip()
@@ -213,9 +231,8 @@ class FileIngestor:
             except Exception:
                 pass
 
-        # This is the ONLY check that matters — did the file get created?
         if not expected_pdf.exists():
-            stderr_text = result.stderr.decode(errors="replace").strip() if result else ""
+            stderr_text = result.stderr.decode(errors="replace").strip() if 'result' in dir() else ""
             raise FileNotFoundError(
                 f"LibreOffice ran but produced no PDF.\n"
                 f"Input: {input_path.name}\n"
