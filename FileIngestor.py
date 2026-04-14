@@ -167,14 +167,38 @@ class FileIngestor:
         if expected_pdf.exists():
             return expected_pdf
         out_dir.mkdir(parents=True, exist_ok=True)
+
+        # Give each conversion its own isolated LibreOffice profile directory.
+        # Without this, parallel prefork workers all share ~/.config/libreoffice
+        # and fight over lock files — LibreOffice silently exits, producing no PDF.
+        import time
+        lo_profile = Path(f"/tmp/lo_profile_{os.getpid()}_{int(time.time()*1000)}")
+        lo_profile.mkdir(parents=True, exist_ok=True)
+        lo_profile_url = lo_profile.as_uri()
+
         cmd = [
             self.soffice_cmd, "--headless", "--norestore",
+            f"--user-installation={lo_profile_url}",
             "--convert-to", "pdf", "--outdir", str(out_dir), str(input_path)
         ]
         try:
-            subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+            result = subprocess.run(
+                cmd, check=True,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                timeout=120
+            )
         except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"LibreOffice failed: {e.stderr.decode()}")
+            stderr = e.stderr.decode(errors="replace")
+            raise RuntimeError(f"LibreOffice failed: {stderr}")
+        except subprocess.TimeoutExpired:
+            raise RuntimeError("LibreOffice conversion timed out after 120s")
+        finally:
+            # Always clean up the temporary profile directory
+            try:
+                shutil.rmtree(lo_profile, ignore_errors=True)
+            except Exception:
+                pass
+
         if not expected_pdf.exists():
             raise FileNotFoundError(f"LibreOffice failed to create: {expected_pdf}")
         return expected_pdf
