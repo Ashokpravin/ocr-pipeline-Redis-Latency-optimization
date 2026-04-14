@@ -168,39 +168,60 @@ class FileIngestor:
             return expected_pdf
         out_dir.mkdir(parents=True, exist_ok=True)
 
-        # Give each conversion its own isolated LibreOffice profile directory.
-        # Without this, parallel prefork workers all share ~/.config/libreoffice
-        # and fight over lock files — LibreOffice silently exits, producing no PDF.
+        # Each conversion gets its own isolated LibreOffice profile directory.
+        # Without this, parallel prefork workers fight over ~/.config/libreoffice
+        # lock files and LibreOffice silently exits producing no PDF.
         import time
         lo_profile = Path(f"/tmp/lo_profile_{os.getpid()}_{int(time.time()*1000)}")
         lo_profile.mkdir(parents=True, exist_ok=True)
         lo_profile_url = lo_profile.as_uri()
 
         cmd = [
-        self.soffice_cmd, "--headless", "--norestore",
-        f"--user-installation={lo_profile_url}",
-        "--convert-to", "pdf", "--outdir", str(out_dir), str(input_path)
+            self.soffice_cmd, "--headless", "--norestore",
+            f"--user-installation={lo_profile_url}",
+            "--convert-to", "pdf", "--outdir", str(out_dir), str(input_path)
         ]
+        # CRITICAL: Do NOT use check=True here.
+        # LibreOffice exits with code 1 when Java is unavailable (container env),
+        # even when the PDF conversion fully succeeds. The java warning is harmless.
+        # We check success by whether the output PDF file was actually created.
         try:
             result = subprocess.run(
-                cmd, check=True,
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                cmd,
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 timeout=120
             )
-        except subprocess.CalledProcessError as e:
-            stderr = e.stderr.decode(errors="replace")
-            raise RuntimeError(f"LibreOffice failed: {stderr}")
+            stderr_text = result.stderr.decode(errors="replace").strip()
+            # Only log stderr if it contains something beyond the java warning
+            real_errors = [
+                line for line in stderr_text.splitlines()
+                if line.strip()
+                and "javaldx" not in line
+                and "java may not function" not in line
+                and "Warning:" not in line
+            ]
+            if real_errors:
+                logger.warning("[LibreOffice] stderr: %s", "\n".join(real_errors))
+
         except subprocess.TimeoutExpired:
             raise RuntimeError("LibreOffice conversion timed out after 120s")
         finally:
-            # Always clean up the temporary profile directory
             try:
                 shutil.rmtree(lo_profile, ignore_errors=True)
             except Exception:
                 pass
 
+        # This is the ONLY check that matters — did the file get created?
         if not expected_pdf.exists():
-            raise FileNotFoundError(f"LibreOffice failed to create: {expected_pdf}")
+            stderr_text = result.stderr.decode(errors="replace").strip() if result else ""
+            raise FileNotFoundError(
+                f"LibreOffice ran but produced no PDF.\n"
+                f"Input: {input_path.name}\n"
+                f"Expected: {expected_pdf}\n"
+                f"stderr: {stderr_text[:500]}"
+            )
         return expected_pdf
 
     def _convert_text_to_pdf(self, input_path: Path, out_dir: Path) -> Path:
