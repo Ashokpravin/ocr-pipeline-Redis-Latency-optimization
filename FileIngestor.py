@@ -172,11 +172,10 @@ class FileIngestor:
         lo_work = Path(f"/tmp/lo_{os.getpid()}_{int(time.time()*1000)}")
         lo_work.mkdir(parents=True, exist_ok=True)
 
-        # Use a space‑free name for the input file inside the work dir
         safe_input = lo_work / f"input{input_path.suffix.lower()}"
         shutil.copy2(input_path, safe_input)
 
-        # Write Java‑disabling config to the default user profile
+        # Disable Java in default user profile
         default_profile = Path(os.environ.get("HOME", "/tmp")) / ".config" / "libreoffice"
         lo_user_dir = default_profile / "4" / "user"
         lo_user_dir.mkdir(parents=True, exist_ok=True)
@@ -207,6 +206,7 @@ class FileIngestor:
             raise RuntimeError(f"LibreOffice executable '{self.soffice_cmd}' not found in PATH")
 
         cmd = [
+            "xvfb-run", "-a",                # virtual X server, auto display
             soffice_bin, "--headless", "--norestore",
             "--convert-to", "pdf",
             "--outdir", str(lo_work),
@@ -231,26 +231,22 @@ class FileIngestor:
             logger.info("[LibreOffice] STDOUT: %s", stdout_text)
             logger.info("[LibreOffice] STDERR: %s", stderr_text)
 
-            # LibreOffice may exit with code 1 due to harmless javaldx warning.
-            # We consider the conversion successful if ANY .pdf file was created.
+            # LibreOffice may exit non-zero due to harmless javaldx warning.
+            # Success is determined by PDF creation.
             pdf_files = list(lo_work.glob("*.pdf"))
             if not pdf_files:
                 raise RuntimeError(
                     f"LibreOffice produced no PDF. Return code: {result.returncode}\n"
                     f"STDOUT: {stdout_text}\nSTDERR: {stderr_text}"
                 )
-
-            # There should be exactly one PDF (either input.pdf or the original name)
             lo_output = pdf_files[0]
 
         except subprocess.TimeoutExpired:
             shutil.rmtree(lo_work, ignore_errors=True)
             raise RuntimeError("LibreOffice conversion timed out after 120s")
 
-        # Move the PDF to the expected location
         shutil.move(str(lo_output), str(expected_pdf))
         shutil.rmtree(lo_work, ignore_errors=True)
-
         return expected_pdf
 
     def _convert_text_to_pdf(self, input_path: Path, out_dir: Path) -> Path:

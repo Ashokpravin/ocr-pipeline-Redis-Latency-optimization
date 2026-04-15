@@ -28,6 +28,9 @@ try:
 except Exception as e:
     print(f"[celery_entry] ⚠ Setup error (continuing): {e}", flush=True)
 
+# Install xvfb for headless X11 support
+_run("apt-get install -y -qq xvfb")   
+
 # ── Step 2: Replace this process with Celery worker ──────────────────────────
 # os.execvp replaces the current Python process entirely with the Celery worker.
 # The worker inherits all environment variables set in Katonic UI.

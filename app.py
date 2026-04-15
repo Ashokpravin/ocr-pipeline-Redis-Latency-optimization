@@ -291,6 +291,7 @@ def _setup():
     # Disable Java in LO config regardless of how it was installed
     _disable_libreoffice_java()
 
+    _run("apt-get install -y -qq xvfb")
     # =========================================================
     # STEP 6: Pre-download PaddleX DLA model
     # =========================================================

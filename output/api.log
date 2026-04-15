@@ -2092,3 +2092,373 @@
 2026-04-15 17:17:47,116 - ocr_app - INFO - [lifespan:689] ============================================================
 2026-04-15 17:17:47,116 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
 2026-04-15 17:17:47,116 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:12:35,195 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:12:35,196 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:12:35,550 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:12:35,550 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:12:35,550 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:12:35,550 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:12:35,550 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:12:35,551 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:12:35,551 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:12:35,551 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:12:35,551 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:12:35,551 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:12:35,551 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:12:35,551 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:12:35,551 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:12:35,551 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:12:35,552 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:12:35,552 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:12:35,552 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:12:35,660 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:12:35,660 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:12:35,660 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:12:35,660 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:12:43,177 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:12:43,177 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:12:43,529 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:12:43,529 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:12:43,529 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:12:43,529 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:12:43,530 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:12:43,531 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:12:43,531 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:12:43,638 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:12:43,638 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:12:43,638 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:12:43,638 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:12:46,145 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:12:46,145 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:12:46,494 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:12:46,494 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:12:46,495 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:12:46,495 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:12:46,598 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:12:46,598 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:12:46,598 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:12:46,599 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:13:13,157 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:13:13,158 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:13:13,507 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:13:13,507 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:13:13,507 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:13:13,507 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:13:13,507 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:13:13,507 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:13:13,508 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:13:13,508 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:13:13,508 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:13:13,508 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:13:13,508 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:13:13,508 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:13:13,508 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:13:13,508 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:13:13,508 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:13:13,508 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:13:13,509 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:13:13,614 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:13:13,614 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:13:13,614 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:13:13,614 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:13:16,120 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:13:16,121 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:13:16,470 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:13:16,470 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:13:16,470 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:13:16,471 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:13:16,471 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:13:16,471 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:13:16,471 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:13:16,471 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:13:16,471 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:13:16,471 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:13:16,471 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:13:16,471 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:13:16,471 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:13:16,472 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:13:16,472 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:13:16,472 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:13:16,472 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:13:16,579 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:13:16,579 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:13:16,579 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:13:16,579 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:13:25,900 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:13:25,901 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:13:26,251 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:13:26,251 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:13:26,251 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:13:26,251 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:13:26,251 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:13:26,251 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:13:26,251 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:13:26,251 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:13:26,252 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:13:26,252 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:13:26,252 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:13:26,252 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:13:26,252 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:13:26,252 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:13:26,252 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:13:26,252 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:13:26,252 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:13:26,358 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:13:26,358 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:13:26,358 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:13:26,358 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:13:38,986 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:13:38,987 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:13:39,342 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:13:39,342 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:13:39,342 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:13:39,342 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:13:39,343 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:13:39,344 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:13:39,447 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:13:39,448 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:13:39,448 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:13:39,448 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:13:42,956 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:13:42,956 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:13:43,304 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:13:43,305 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:13:43,305 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:13:43,305 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:13:43,305 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:13:43,305 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:13:43,305 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:13:43,306 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:13:43,306 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:13:43,306 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:13:43,306 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:13:43,306 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:13:43,306 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:13:43,306 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:13:43,306 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:13:43,306 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:13:43,307 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:13:43,410 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:13:43,410 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:13:43,410 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:13:43,410 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:14:31,716 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:14:31,716 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:14:32,069 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:14:32,069 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:14:32,069 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:14:32,069 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:14:32,069 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:14:32,069 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:14:32,070 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:14:32,070 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:14:32,070 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:14:32,070 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:14:32,070 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:14:32,070 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:14:32,070 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:14:32,070 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:14:32,070 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:14:32,070 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:14:32,071 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:14:32,177 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:14:32,177 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:14:32,177 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:14:32,177 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:14:35,185 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:14:35,186 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:14:35,536 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:14:35,537 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:14:35,537 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:14:35,537 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:14:35,537 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:14:35,537 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:14:35,537 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:14:35,537 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:14:35,537 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:14:35,537 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:14:35,537 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:14:35,538 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:14:35,538 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:14:35,538 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:14:35,538 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:14:35,538 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:14:35,538 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:14:35,644 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:14:35,644 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:14:35,644 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:14:35,644 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:14:36,347 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:14:36,347 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:14:36,701 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:14:36,701 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:14:36,701 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:14:36,701 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:14:36,701 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:14:36,702 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:14:36,703 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:14:36,809 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:14:36,809 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:14:36,809 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:14:36,809 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:14:42,824 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:14:42,824 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:14:43,173 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:14:43,173 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:14:43,173 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:14:43,173 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:14:43,173 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:14:43,173 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:14:43,174 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:14:43,278 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:14:43,278 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:14:43,278 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:14:43,278 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:14:43,982 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:14:43,982 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:14:44,331 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:14:44,331 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:14:44,331 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:14:44,332 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:14:44,332 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:14:44,333 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:14:44,333 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:14:44,437 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:14:44,438 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:14:44,438 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:14:44,438 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:16:19,042 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:16:19,042 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:16:19,396 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:16:19,396 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:16:19,396 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:16:19,397 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:16:19,397 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:16:19,397 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:16:19,397 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:16:19,397 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:16:19,397 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:16:19,397 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:16:19,397 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:16:19,398 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:16:19,398 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:16:19,398 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:16:19,398 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:16:19,398 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:16:19,398 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:16:19,507 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:16:19,508 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:16:19,508 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:16:19,508 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:16:31,636 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:16:31,636 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:16:31,984 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:16:31,984 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:16:31,984 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:16:31,984 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:16:31,985 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:16:32,090 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:16:32,091 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:16:32,091 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:16:32,091 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:16:32,794 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:16:32,794 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-15 18:16:33,147 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-15 18:16:33,147 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-15 18:16:33,147 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-15 18:16:33,148 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-15 18:16:33,148 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-15 18:16:33,149 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-15 18:16:33,149 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-15 18:16:33,252 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-15 18:16:33,253 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-15 18:16:33,253 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-15 18:16:33,253 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-15 18:16:50,591 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-15 18:16:50,591 - ocr_app - INFO - [lifespan:703] Shutdown complete.
