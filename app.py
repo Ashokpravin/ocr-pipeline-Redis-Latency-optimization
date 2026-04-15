@@ -36,8 +36,11 @@ def _get_site_packages():
 
 # LibreOffice: disable Java completely (prevents "failed to launch javaldx")
 os.environ.setdefault("SAL_USE_VCLPLUGIN", "gen")
-os.environ.setdefault("SAL_DISABLE_COMPONENTCONTEXT", "1")
-# Unset JAVA_HOME if set — signals LO to skip Java entirely
+# SAL_DISABLE_COMPONENTCONTEXT MUST NOT be set — it prevents LibreOffice from
+# loading its UNO component context, which is required for ALL document conversion.
+# With this set, soffice starts, prints the javaldx warning, and exits in <1s
+# without converting anything. This was the root cause of pptx/docx failures.
+# Unset JAVA_HOME — signals LO to skip Java entirely (javaldx warning is harmless)
 if "JAVA_HOME" not in os.environ:
     os.environ["JAVA_HOME"] = ""
 

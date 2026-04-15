@@ -163,41 +163,23 @@ class FileIngestor:
     # =========================================================================
 
     def _convert_office_to_pdf(self, input_path: Path, out_dir: Path) -> Path:
-        """
-        Convert an Office file to PDF using LibreOffice.
-
-        ROOT CAUSE OF PREVIOUS FAILURES:
-        LibreOffice --convert-to silently produces no output when either the
-        input path or --outdir path contains spaces. Python subprocess passes
-        args correctly, but LibreOffice's internal path tokeniser splits on
-        spaces. Since our job dirs are named after the uploaded filename
-        (e.g. "Proposed Changes to Web Scraping Pipeline.pptx_dla"), any
-        file with spaces in its name fails silently every time.
-
-        FIX: Run LibreOffice entirely inside a short, space-free temp dir.
-          1. Copy input  →  /tmp/lo_<pid>_<ts>/src.<ext>   (no spaces)
-          2. --outdir    →  /tmp/lo_<pid>_<ts>/             (no spaces)
-          3. Move result →  expected_pdf (in the original out_dir)
-        """
         expected_pdf = out_dir / input_path.with_suffix(".pdf").name
         if expected_pdf.exists():
             return expected_pdf
         out_dir.mkdir(parents=True, exist_ok=True)
 
         import time
-        # Space-free working directory for this conversion
         lo_work = Path(f"/tmp/lo_{os.getpid()}_{int(time.time()*1000)}")
         lo_work.mkdir(parents=True, exist_ok=True)
 
-        # Copy input to a space-free name so LO path tokeniser never sees spaces
+        # Use a space‑free name for the input file inside the work dir
         safe_input = lo_work / f"input{input_path.suffix.lower()}"
         shutil.copy2(input_path, safe_input)
 
-        # Isolated LO user profile (prevents parallel worker lock conflicts)
-        lo_profile = lo_work / "profile"
-        lo_user_dir = lo_profile / "4" / "user"
+        # Write Java‑disabling config to the default user profile
+        default_profile = Path(os.environ.get("HOME", "/tmp")) / ".config" / "libreoffice"
+        lo_user_dir = default_profile / "4" / "user"
         lo_user_dir.mkdir(parents=True, exist_ok=True)
-        # Disable Java in this profile (belt-and-suspenders alongside env vars)
         (lo_user_dir / "registrymodifications.xcu").write_text(
             '<?xml version="1.0" encoding="UTF-8"?>\n'
             '<oor:items xmlns:oor="http://openoffice.org/2001/registry"\n'
@@ -214,25 +196,26 @@ class FileIngestor:
             encoding="utf-8"
         )
 
-        # Also disable Java at the OS env level — takes effect before LO
-        # reads any config file, so it cannot be overridden by profile init.
         lo_env = os.environ.copy()
         lo_env["JAVA_HOME"] = ""
         lo_env["JFW_PLUGIN_DO_NOT_CHECK_ACCESSIBILITY"] = "1"
         lo_env["SAL_USE_VCLPLUGIN"] = "gen"
-        lo_env["SAL_DISABLE_COMPONENTCONTEXT"] = "1"
+        lo_env.pop("SAL_DISABLE_COMPONENTCONTEXT", None)
 
-        lo_profile_url = lo_profile.as_uri()
-        # LO will write:  lo_work/input.pdf  (matches safe_input stem + .pdf)
-        lo_output = lo_work / f"input.pdf"
+        soffice_bin = shutil.which(self.soffice_cmd)
+        if not soffice_bin:
+            raise RuntimeError(f"LibreOffice executable '{self.soffice_cmd}' not found in PATH")
 
         cmd = [
-            self.soffice_cmd, "--headless", "--norestore",
-            f"--user-installation={lo_profile_url}",
+            soffice_bin, "--headless", "--norestore",
             "--convert-to", "pdf",
-            "--outdir", str(lo_work),   # space-free outdir
-            str(safe_input),            # space-free input path
+            "--outdir", str(lo_work),
+            str(safe_input),
         ]
+
+        logger = logging.getLogger(__name__)
+        logger.info("[LibreOffice] CMD: %s", " ".join(cmd))
+
         try:
             result = subprocess.run(
                 cmd,
@@ -242,38 +225,32 @@ class FileIngestor:
                 stderr=subprocess.PIPE,
                 timeout=120
             )
+            stdout_text = result.stdout.decode(errors="replace").strip()
             stderr_text = result.stderr.decode(errors="replace").strip()
-            real_errors = [
-                line for line in stderr_text.splitlines()
-                if line.strip()
-                and "javaldx" not in line
-                and "java may not function" not in line
-                and "Warning:" not in line
-            ]
-            if real_errors:
-                import logging as _logging
-                _logging.getLogger(__name__).warning(
-                    "[LibreOffice] stderr: %s", "\n".join(real_errors)
+
+            logger.info("[LibreOffice] STDOUT: %s", stdout_text)
+            logger.info("[LibreOffice] STDERR: %s", stderr_text)
+
+            # LibreOffice may exit with code 1 due to harmless javaldx warning.
+            # We consider the conversion successful if ANY .pdf file was created.
+            pdf_files = list(lo_work.glob("*.pdf"))
+            if not pdf_files:
+                raise RuntimeError(
+                    f"LibreOffice produced no PDF. Return code: {result.returncode}\n"
+                    f"STDOUT: {stdout_text}\nSTDERR: {stderr_text}"
                 )
+
+            # There should be exactly one PDF (either input.pdf or the original name)
+            lo_output = pdf_files[0]
 
         except subprocess.TimeoutExpired:
             shutil.rmtree(lo_work, ignore_errors=True)
             raise RuntimeError("LibreOffice conversion timed out after 120s")
 
-        # Move the PDF out of the space-free work dir to the expected location
-        if lo_output.exists():
-            shutil.move(str(lo_output), str(expected_pdf))
-
+        # Move the PDF to the expected location
+        shutil.move(str(lo_output), str(expected_pdf))
         shutil.rmtree(lo_work, ignore_errors=True)
 
-        if not expected_pdf.exists():
-            stderr_text = result.stderr.decode(errors="replace").strip() if 'result' in dir() else ""
-            raise FileNotFoundError(
-                f"LibreOffice ran but produced no PDF.\n"
-                f"Input: {input_path.name}\n"
-                f"Expected: {expected_pdf}\n"
-                f"stderr: {stderr_text[:500]}"
-            )
         return expected_pdf
 
     def _convert_text_to_pdf(self, input_path: Path, out_dir: Path) -> Path:
