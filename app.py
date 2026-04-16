@@ -38,8 +38,6 @@ def _get_site_packages():
 os.environ.setdefault("SAL_USE_VCLPLUGIN", "gen")
 # SAL_DISABLE_COMPONENTCONTEXT MUST NOT be set — it prevents LibreOffice from
 # loading its UNO component context, which is required for ALL document conversion.
-# With this set, soffice starts, prints the javaldx warning, and exits in <1s
-# without converting anything. This was the root cause of pptx/docx failures.
 # Unset JAVA_HOME — signals LO to skip Java entirely (javaldx warning is harmless)
 if "JAVA_HOME" not in os.environ:
     os.environ["JAVA_HOME"] = ""
@@ -266,19 +264,18 @@ def _setup():
     if soffice_check.returncode == 0:
         print(f"  ✓ Already installed: {soffice_check.stdout.strip()}", flush=True)
     else:
+        # Katonic runs as a standard user; we must use sudo if it's available
+        sudo_prefix = "sudo -n " if _run("command -v sudo").returncode == 0 else ""
+        
         result = _run(
-            "apt-get update -qq && "
-            "apt-get install -y -qq --no-install-recommends "
+            f"{sudo_prefix}apt-get update -qq && "
+            f"{sudo_prefix}apt-get install -y -qq --no-install-recommends "
             "libreoffice-writer libreoffice-calc libreoffice-impress "
-            "libreoffice-common"
+            "libreoffice-common fonts-dejavu-core"
         )
         if result.returncode != 0:
             print("  Minimal install failed, trying full LibreOffice...", flush=True)
-            result = _run("apt-get install -y -qq libreoffice")
-
-        if result.returncode != 0:
-            print("  apt failed, trying conda...", flush=True)
-            result = _run("conda install -y -c conda-forge libreoffice")
+            result = _run(f"{sudo_prefix}apt-get install -y -qq libreoffice")
 
         verify = _run("which soffice")
         if verify.returncode == 0:
@@ -287,11 +284,14 @@ def _setup():
             print("  ✗ LibreOffice install failed. .docx/.pptx/.xlsx will not work.", flush=True)
             if result.stderr:
                 print(f"  Error: {result.stderr.strip()[:300]}", flush=True)
+            print("  Note: Conda does not provide 'libreoffice' for Linux. Container needs apt/sudo privileges.", flush=True)
 
     # Disable Java in LO config regardless of how it was installed
     _disable_libreoffice_java()
 
-    _run("apt-get install -y -qq xvfb")
+    sudo_prefix = "sudo -n " if _run("command -v sudo").returncode == 0 else ""
+    _run(f"{sudo_prefix}apt-get install -y -qq xvfb")
+    
     # =========================================================
     # STEP 6: Pre-download PaddleX DLA model
     # =========================================================

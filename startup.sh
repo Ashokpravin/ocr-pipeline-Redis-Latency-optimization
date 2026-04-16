@@ -2,13 +2,6 @@
 # =============================================================================
 # CustomOCR Pipeline - Katonic Startup Script v3.0
 # =============================================================================
-# USE THIS AS YOUR "Main file path" IN KATONIC: startup.sh
-#
-# FIXES in v3.0:
-#   - LibreOffice Java disabled (prevents javaldx crash on .docx/.pptx)
-#   - PaddleX DLA model pre-downloaded (prevents inference.yml not found)
-#   - Environment variables for headless container operation
-# =============================================================================
 
 set -e
 
@@ -22,7 +15,6 @@ echo "=============================================="
 export OCR_OUTPUT_DIR=/app/output
 mkdir -p /app/output/completed
 export SAL_USE_VCLPLUGIN=gen
-export SAL_DISABLE_COMPONENTCONTEXT=1
 export JAVA_HOME=""
 export GLOG_v=0
 
@@ -82,16 +74,18 @@ pip install --no-cache-dir --no-deps \
 # -------------------------------------------------
 echo "[5/7] Installing LibreOffice..."
 
+SUDO=""
+if command -v sudo &>/dev/null; then SUDO="sudo -n"; fi
+
 if command -v soffice &>/dev/null; then
     echo "  ✓ Already installed: $(which soffice)"
 else
-    apt-get update -qq 2>/dev/null && \
-    apt-get install -y -qq --no-install-recommends \
+    $SUDO apt-get update -qq 2>/dev/null && \
+    $SUDO apt-get install -y -qq --no-install-recommends \
         libreoffice-writer libreoffice-calc libreoffice-impress \
-        libreoffice-common fonts-dejavu-core 2>/dev/null || \
-    apt-get install -y -qq libreoffice 2>/dev/null || \
-    conda install -y -c conda-forge libreoffice 2>/dev/null || \
-    echo "  ✗ LibreOffice install failed"
+        libreoffice-common fonts-dejavu-core xvfb 2>/dev/null || \
+    $SUDO apt-get install -y -qq libreoffice xvfb 2>/dev/null || \
+    echo "  ✗ LibreOffice install failed. Ensure root/sudo privileges."
 fi
 
 # Disable Java in LibreOffice config (prevents javaldx crash)

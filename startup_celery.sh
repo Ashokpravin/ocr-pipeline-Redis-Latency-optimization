@@ -2,14 +2,6 @@
 # =============================================================================
 # CustomOCR Pipeline - Celery Worker Startup Script (Katonic Deployment 2)
 # =============================================================================
-# USE THIS AS YOUR "Main file path" IN KATONIC for the Celery worker deployment.
-#
-# This script mirrors startup.sh dependency installation but starts
-# the Celery worker instead of FastAPI.
-#
-# CRITICAL: Both this deployment and the FastAPI deployment MUST mount
-# the same PVC at /app/output — Celery reads files FastAPI writes there.
-# =============================================================================
 
 set -e
 
@@ -21,7 +13,6 @@ echo "=============================================="
 # STEP 0: Environment variables
 # -------------------------------------------------
 export SAL_USE_VCLPLUGIN=gen
-export SAL_DISABLE_COMPONENTCONTEXT=1
 export JAVA_HOME=""
 export GLOG_v=0
 
@@ -64,13 +55,16 @@ echo "  Done"
 # STEP 3: LibreOffice + disable Java
 # -------------------------------------------------
 echo "[3/5] Checking LibreOffice..."
+SUDO=""
+if command -v sudo &>/dev/null; then SUDO="sudo -n"; fi
+
 if command -v soffice &>/dev/null; then
     echo "  Already installed"
 else
-    apt-get update -qq 2>/dev/null && \
-    apt-get install -y -qq --no-install-recommends \
+    $SUDO apt-get update -qq 2>/dev/null && \
+    $SUDO apt-get install -y -qq --no-install-recommends \
         libreoffice-writer libreoffice-calc libreoffice-impress \
-        libreoffice-common fonts-dejavu-core 2>/dev/null || true
+        libreoffice-common fonts-dejavu-core xvfb 2>/dev/null || true
 fi
 
 LO_PROFILE="${HOME}/.config/libreoffice/4/user"
