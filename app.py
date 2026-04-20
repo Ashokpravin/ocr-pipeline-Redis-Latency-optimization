@@ -2,11 +2,15 @@
 Katonic Entry Point — app.py
 Katonic runs: uvicorn app:app
 
-FIXES:
+FIXES (v3.2 — April 2026):
   1. OpenCV headless + fake metadata for PaddleX
   2. LibreOffice for .docx/.pptx/.xlsx conversion (Java disabled to prevent javaldx crash)
   3. PaddleX DLA model pre-download (prevents runtime FileNotFoundError)
   4. Environment variables for headless container operation
+  5. Apt-get conflict resolution for held broken packages
+  6. Deployment-specific marker files (prevents API/Worker conflicts)
+  7. DEBIAN_FRONTEND forced in subprocess environment
+  8. Apt cache cleanup after LibreOffice install (prevents disk bloat)
 """
 
 import subprocess
@@ -18,8 +22,13 @@ import glob
 import traceback
 
 
+# =============================================================================
+# FIX 7: Force DEBIAN_FRONTEND in ALL subprocess calls
+# =============================================================================
 def _run(cmd):
-    return subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    env = os.environ.copy()
+    env["DEBIAN_FRONTEND"] = "noninteractive"
+    return subprocess.run(cmd, shell=True, capture_output=True, text=True, env=env)
 
 
 def _get_site_packages():
@@ -32,18 +41,13 @@ def _get_site_packages():
 # =============================================================================
 # SET ENVIRONMENT VARIABLES BEFORE ANY IMPORTS
 # =============================================================================
-# These MUST be set before LibreOffice or PaddleX are ever invoked.
-
 # LibreOffice: disable Java completely (prevents "failed to launch javaldx")
 os.environ.setdefault("SAL_USE_VCLPLUGIN", "gen")
-# SAL_DISABLE_COMPONENTCONTEXT MUST NOT be set — it prevents LibreOffice from
-# loading its UNO component context, which is required for ALL document conversion.
-# Unset JAVA_HOME — signals LO to skip Java entirely (javaldx warning is harmless)
+os.environ.setdefault("DEBIAN_FRONTEND", "noninteractive")
 if "JAVA_HOME" not in os.environ:
     os.environ["JAVA_HOME"] = ""
 
 # LibreOffice needs a writable HOME for its user profile directory.
-# In containers, /root may not be writable for the running user.
 _lo_home = os.environ.get("HOME", "/root")
 _lo_profile = os.path.join(_lo_home, ".config", "libreoffice")
 try:
@@ -55,7 +59,7 @@ try:
 except (OSError, PermissionError):
     os.environ["HOME"] = "/tmp"
     os.makedirs("/tmp/.config/libreoffice", exist_ok=True)
-    print(f"⚠ HOME ({_lo_home}) not writable for LibreOffice, using /tmp", flush=True)
+    print(f"WARNING: HOME ({_lo_home}) not writable for LibreOffice, using /tmp", flush=True)
 
 # PaddleX: ensure model cache is in a writable location
 os.environ.setdefault("PADDLEX_HOME", os.path.join(os.environ["HOME"], ".paddlex"))
@@ -68,7 +72,7 @@ os.environ.setdefault("FLAGS_call_stack_level", "0")
 def _disable_libreoffice_java():
     """
     Write a LibreOffice user-profile config that disables Java.
-    This prevents the 'failed to launch javaldx' error permanently.
+    This prevents the "failed to launch javaldx" warning/crash entirely.
     """
     lo_home = os.environ.get("HOME", "/root")
     profile_dir = os.path.join(lo_home, ".config", "libreoffice", "4", "user")
@@ -99,28 +103,25 @@ def _disable_libreoffice_java():
 """
             with open(registry_file, "w") as f:
                 f.write(xcu)
-            print("  ✓ Disabled Java in LibreOffice config", flush=True)
+            print("  Done: Disabled Java in LibreOffice config", flush=True)
     except Exception as e:
-        print(f"  ⚠ Could not disable LO Java: {e} (non-fatal)", flush=True)
+        print(f"  Note: Could not disable LO Java: {e} (non-fatal)", flush=True)
 
 
 def _predownload_paddlex_model():
     """
-    Pre-download the PP-DocLayout_plus-L model so DLA doesn't fail
-    at runtime with 'No such file or directory: inference.yml'.
+    Pre-download the PP-DocLayout_plus-L model so workers don't race to download it.
     """
     paddlex_home = os.environ.get("PADDLEX_HOME", os.path.expanduser("~/.paddlex"))
     model_dir = os.path.join(paddlex_home, "official_models", "PP-DocLayout_plus-L")
     inference_yml = os.path.join(model_dir, "inference.yml")
 
     if os.path.exists(inference_yml):
-        print(f"  ✓ Model already present: {model_dir}", flush=True)
+        print(f"  Done: Model already present: {model_dir}", flush=True)
         return True
 
     print(f"  Downloading PP-DocLayout_plus-L to {paddlex_home}...", flush=True)
-    print("  (This may take a few minutes on first run)", flush=True)
-
-    # Use a subprocess so if it crashes, it doesn't take down our setup
+    
     dl_script = (
         "import os; "
         f"os.environ['PADDLEX_HOME'] = '{paddlex_home}'; "
@@ -132,110 +133,83 @@ def _predownload_paddlex_model():
     result = _run(f'{sys.executable} -c "{dl_script}"')
 
     if result.returncode == 0 and "MODEL_OK" in result.stdout:
-        print(f"  ✓ Model downloaded successfully", flush=True)
+        print(f"  Done: Model downloaded successfully", flush=True)
         return True
     else:
         err = result.stderr.strip() if result.stderr else result.stdout.strip()
-        # Show last few lines of error
         err_lines = err.split("\n")[-5:]
-        print(f"  ✗ Model download failed:", flush=True)
+        print(f"  FAILED: Model download failed:", flush=True)
         for line in err_lines:
             if line.strip():
                 print(f"    {line}", flush=True)
-        print("  ⚠ DLA will attempt download on first request (needs network)", flush=True)
         return False
 
 
 def _setup():
-    """One-time dependency fix. Runs before any pipeline imports."""
     os.environ.setdefault("PADDLEX_HOME", "/home/katonic/.paddlex")
-
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    marker = os.path.join(base_dir, ".deps_ok")
+    
+    # ==========================================================================
+    # FIX 6: Deployment-specific marker file
+    # Set DEPLOY_TYPE="worker" in celery_entry.py before calling _setup()
+    # This prevents the Celery worker from invalidating the API's marker
+    # ==========================================================================
+    deploy_type = os.getenv("DEPLOY_TYPE", "api")
+    marker = os.path.join(base_dir, f".deps_ok_{deploy_type}")
 
-    # Quick check: if marker exists and all deps are OK, skip setup
     if os.path.exists(marker):
         cv2_ok = _run(f'{sys.executable} -c "import cv2"').returncode == 0
         soffice_ok = _run("which soffice").returncode == 0
-
         paddlex_home = os.environ.get("PADDLEX_HOME", os.path.expanduser("~/.paddlex"))
-        model_ok = os.path.exists(
-            os.path.join(paddlex_home, "official_models", "PP-DocLayout_plus-L", "inference.yml")
-        )
-
+        model_ok = os.path.exists(os.path.join(paddlex_home, "official_models", "PP-DocLayout_plus-L", "inference.yml"))
         if cv2_ok and soffice_ok and model_ok:
+            print(f"[app.py] Dependencies verified via marker: {marker}", flush=True)
             return
         else:
-            missing = []
-            if not cv2_ok: missing.append("cv2")
-            if not soffice_ok: missing.append("soffice")
-            if not model_ok: missing.append("DLA model")
-            print(f"⚠ Deps check failed (missing: {', '.join(missing)}). Re-running setup...", flush=True)
-            try:
-                os.remove(marker)
-            except OSError:
-                pass
+            try: os.remove(marker)
+            except OSError: pass
 
     print("=" * 60, flush=True)
-    print(" CustomOCR — Fixing Dependencies for Katonic", flush=True)
+    print(f" CustomOCR - Fixing Dependencies ({deploy_type})", flush=True)
     print("=" * 60, flush=True)
 
     site_pkg = _get_site_packages()
 
     # =========================================================
-    # STEP 1: Delete ALL opencv from disk
+    # STEP 1/6: Remove all OpenCV installations
     # =========================================================
     print("[1/6] Removing all OpenCV installations...", flush=True)
-
-    for pattern in ["cv2", "cv2.cpython*",
-                    "opencv_python*", "opencv_contrib_python*",
-                    "opencv_python_headless*", "opencv_contrib_python_headless*"]:
+    for pattern in ["cv2", "cv2.cpython*", "opencv_python*", "opencv_contrib_python*", "opencv_python_headless*", "opencv_contrib_python_headless*"]:
         for path in glob.glob(os.path.join(site_pkg, pattern)):
             print(f"  rm {os.path.basename(path)}", flush=True)
-            if os.path.isdir(path):
-                shutil.rmtree(path, ignore_errors=True)
+            if os.path.isdir(path): shutil.rmtree(path, ignore_errors=True)
             else:
-                try:
-                    os.remove(path)
-                except OSError:
-                    pass
-
-    for sp in site.getsitepackages() if hasattr(site, 'getsitepackages') else []:
-        if sp != site_pkg:
-            for pattern in ["cv2", "opencv_python*", "opencv_contrib_python*"]:
-                for path in glob.glob(os.path.join(sp, pattern)):
-                    if os.path.isdir(path):
-                        shutil.rmtree(path, ignore_errors=True)
-                    else:
-                        try:
-                            os.remove(path)
-                        except OSError:
-                            pass
+                try: os.remove(path)
+                except OSError: pass
 
     _run("pip uninstall -y opencv-python opencv-contrib-python opencv-python-headless opencv-contrib-python-headless 2>/dev/null")
-    print("  ✓ Done", flush=True)
+    print("  Done", flush=True)
 
     # =========================================================
-    # STEP 2: Install paddleocr WITHOUT deps
+    # STEP 2/6: Install PaddleOCR without deps
     # =========================================================
     print("[2/6] Installing PaddleOCR (--no-deps)...", flush=True)
     _run("pip install --no-cache-dir --no-deps paddleocr==3.3.2")
-    print("  ✓ Done", flush=True)
+    print("  Done", flush=True)
 
     # =========================================================
-    # STEP 3: Install HEADLESS opencv
+    # STEP 3/6: Install headless OpenCV
     # =========================================================
     print("[3/6] Installing headless OpenCV...", flush=True)
     result = _run("pip install --no-cache-dir opencv-python-headless==4.10.0.84 opencv-contrib-python-headless==4.10.0.84")
     if result.returncode != 0:
         _run("pip install --no-cache-dir opencv-python-headless opencv-contrib-python-headless")
-    print("  ✓ Done", flush=True)
+    print("  Done", flush=True)
 
     # =========================================================
-    # STEP 4: Create fake metadata for PaddleX
+    # STEP 4/6: Create fake opencv metadata for PaddleX
     # =========================================================
     print("[4/6] Creating opencv metadata for PaddleX...", flush=True)
-
     ver_result = _run(f'{sys.executable} -c "import cv2; print(cv2.__version__)"')
     cv_version = ver_result.stdout.strip() if ver_result.returncode == 0 else "4.10.0.84"
 
@@ -247,28 +221,26 @@ def _setup():
                 os.makedirs(fake_dist, exist_ok=True)
                 with open(os.path.join(fake_dist, "METADATA"), "w") as f:
                     f.write(f"Metadata-Version: 2.1\nName: {pkg_name}\nVersion: {cv_version}\n")
-                with open(os.path.join(fake_dist, "INSTALLER"), "w") as f:
-                    f.write("pip\n")
-                with open(os.path.join(fake_dist, "RECORD"), "w") as f:
-                    f.write("")
-            except Exception as e:
-                print(f"  ✗ {fake_dist}: {e}", flush=True)
-    print("  ✓ Done", flush=True)
+                with open(os.path.join(fake_dist, "INSTALLER"), "w") as f: f.write("pip\n")
+                with open(os.path.join(fake_dist, "RECORD"), "w") as f: f.write("")
+            except Exception:
+                pass
+    print("  Done", flush=True)
 
     # =========================================================
-    # STEP 5: Install LibreOffice (+ disable Java)
+    # STEP 5/6: Install LibreOffice
     # =========================================================
     print("[5/6] Installing LibreOffice...", flush=True)
-
     soffice_check = _run("which soffice")
     if soffice_check.returncode == 0:
-        print(f"  ✓ Already installed: {soffice_check.stdout.strip()}", flush=True)
+        print(f"  Done: Already installed: {soffice_check.stdout.strip()}", flush=True)
     else:
-        # Katonic runs as a standard user; we must use sudo if it's available
         sudo_prefix = "sudo -n " if _run("command -v sudo").returncode == 0 else ""
         
+        # FIX 5: Aggressively fix held broken packages BEFORE installing
         result = _run(
-            f"{sudo_prefix}apt-get update -qq && "
+            f"{sudo_prefix}apt-get update -qq --fix-missing && "
+            f"{sudo_prefix}apt-get install -y -f && "
             f"{sudo_prefix}apt-get install -y -qq --no-install-recommends "
             "libreoffice-writer libreoffice-calc libreoffice-impress "
             "libreoffice-common fonts-dejavu-core"
@@ -279,52 +251,48 @@ def _setup():
 
         verify = _run("which soffice")
         if verify.returncode == 0:
-            print(f"  ✓ Installed: {verify.stdout.strip()}", flush=True)
+            print(f"  Done: Installed: {verify.stdout.strip()}", flush=True)
         else:
-            print("  ✗ LibreOffice install failed. .docx/.pptx/.xlsx will not work.", flush=True)
+            print("  FAILED: LibreOffice install failed. .docx/.pptx/.xlsx will not work.", flush=True)
             if result.stderr:
                 print(f"  Error: {result.stderr.strip()[:300]}", flush=True)
-            print("  Note: Conda does not provide 'libreoffice' for Linux. Container needs apt/sudo privileges.", flush=True)
 
-    # Disable Java in LO config regardless of how it was installed
+        # FIX 8: Clean apt cache to prevent disk bloat (~200MB savings)
+        _run(f"{sudo_prefix}rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*")
+
+    # Disable Java in LibreOffice config (prevents javaldx crash)
     _disable_libreoffice_java()
 
+    # Install xvfb for headless rendering (optional, non-critical)
     sudo_prefix = "sudo -n " if _run("command -v sudo").returncode == 0 else ""
-    _run(f"{sudo_prefix}apt-get install -y -qq xvfb")
+    _run(f"{sudo_prefix}apt-get install -y -qq xvfb 2>/dev/null")
     
     # =========================================================
-    # STEP 6: Pre-download PaddleX DLA model
+    # STEP 6/6: Pre-download PaddleX DLA model
     # =========================================================
     print("[6/6] Pre-downloading PaddleX DLA model...", flush=True)
     _predownload_paddlex_model()
 
     # =========================================================
-    # VERIFY ALL
+    # VERIFICATION
     # =========================================================
     print("\nVerification:", flush=True)
-
     r = _run(f'{sys.executable} -c "import cv2; print(cv2.__version__)"')
-    print(f"  cv2: {r.stdout.strip()}" if r.returncode == 0 else "  ✗ cv2 failed", flush=True)
-
-    r = _run(f'{sys.executable} -c "import importlib.metadata; print(importlib.metadata.version(\'opencv-contrib-python\'))"')
-    print(f"  opencv-contrib-python metadata: {r.stdout.strip()}" if r.returncode == 0 else "  ✗ metadata failed", flush=True)
+    print(f"  cv2: {r.stdout.strip()}" if r.returncode == 0 else "  FAILED: cv2", flush=True)
 
     r = _run("soffice --version")
-    print(f"  soffice: {r.stdout.strip()}" if r.returncode == 0 else "  ✗ soffice not found", flush=True)
+    print(f"  soffice: {r.stdout.strip()}" if r.returncode == 0 else "  FAILED: soffice not found", flush=True)
 
     paddlex_home = os.environ.get("PADDLEX_HOME", os.path.expanduser("~/.paddlex"))
-    model_ok = os.path.exists(
-        os.path.join(paddlex_home, "official_models", "PP-DocLayout_plus-L", "inference.yml")
-    )
-    print(f"  DLA model: {'✓ present' if model_ok else '✗ missing'}", flush=True)
+    model_ok = os.path.exists(os.path.join(paddlex_home, "official_models", "PP-DocLayout_plus-L", "inference.yml"))
+    print(f"  DLA model: {'present' if model_ok else 'MISSING'}", flush=True)
 
-    # Write marker
+    # Write deployment-specific marker
     with open(marker, "w") as f:
         f.write("ok")
-
-    print("\n" + "=" * 60, flush=True)
-    print(" Setup complete!", flush=True)
-    print("=" * 60 + "\n", flush=True)
+    print(f"\n{'=' * 60}", flush=True)
+    print(f" Setup complete! (marker: {os.path.basename(marker)})", flush=True)
+    print(f"{'=' * 60}\n", flush=True)
 
 
 # =============================================
@@ -337,7 +305,8 @@ _setup()
 # =============================================
 try:
     import importlib.metadata
-    importlib.metadata.distributions.cache_clear() if hasattr(importlib.metadata.distributions, 'cache_clear') else None
+    if hasattr(importlib.metadata.distributions, 'cache_clear'):
+        importlib.metadata.distributions.cache_clear()
 except Exception:
     pass
 
@@ -345,23 +314,15 @@ except Exception:
 # IMPORT THE REAL FASTAPI APP
 # =============================================
 app = None
-
 try:
     from ocr_app import app
-    print("[app.py] ✓ ocr_app loaded successfully", flush=True)
+    print("[app.py] ocr_app loaded successfully", flush=True)
 except Exception as e:
-    print(f"[app.py] ✗ Failed to import ocr_app: {e}", flush=True)
+    print(f"[app.py] Failed to import ocr_app: {e}", flush=True)
     print(traceback.format_exc(), flush=True)
-
     from fastapi import FastAPI
     app = FastAPI(title="CustomOCR - Error")
     _err = str(e)
-    _tb = traceback.format_exc()
-
     @app.get("/")
     def show_error():
-        return {
-            "status": "import_error",
-            "error": _err,
-            "traceback": _tb.split("\n")
-        }
+        return {"status": "import_error", "error": _err}

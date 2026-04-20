@@ -1,76 +1,60 @@
 #!/bin/bash
 # =============================================================================
-# CustomOCR Pipeline - Katonic Startup Script v3.0
+# CustomOCR Pipeline - API Startup Script v3.2
+# =============================================================================
+# FIXES IN v3.2:
+#   1. DEPLOY_TYPE=api for deployment-specific marker
+#   2. DEBIAN_FRONTEND=noninteractive for all apt operations
+#   3. apt-get --fix-missing for held broken packages
+#   4. apt cache cleanup after LibreOffice install
+#   5. PaddleX model pre-download
 # =============================================================================
 
 set -e
 
 echo "=============================================="
-echo " CustomOCR Pipeline v3.0 - Startup"
+echo " CustomOCR Pipeline v3.2 - API Startup"
 echo "=============================================="
 
 # -------------------------------------------------
-# STEP 0: Set environment variables for LibreOffice
+# STEP 0: Set environment variables
 # -------------------------------------------------
+export DEPLOY_TYPE=api  # FIX: Uses .deps_ok_api marker
 export OCR_OUTPUT_DIR=/app/output
 mkdir -p /app/output/completed
 export SAL_USE_VCLPLUGIN=gen
 export JAVA_HOME=""
 export GLOG_v=0
+export DEBIAN_FRONTEND=noninteractive
 
-# Ensure HOME is writable (LibreOffice needs it)
 if ! touch "$HOME/.write_test" 2>/dev/null; then
     export HOME=/tmp
-    echo "[env] HOME not writable, using /tmp"
 fi
 rm -f "$HOME/.write_test" 2>/dev/null
 
 export PADDLEX_HOME="${HOME}/.paddlex"
 
-echo "[env] HOME=$HOME"
-echo "[env] PADDLEX_HOME=$PADDLEX_HOME"
-
 # -------------------------------------------------
 # STEP 1: Nuke conda-installed opencv
 # -------------------------------------------------
 echo "[1/7] Removing conda-installed OpenCV..."
-
 SITE_PKG=$(python -c "import site; print(site.getsitepackages()[0])" 2>/dev/null || echo "/opt/conda/lib/python3.11/site-packages")
-
-rm -rf "${SITE_PKG}/cv2" 2>/dev/null || true
-rm -rf "${SITE_PKG}/cv2.cpython"* 2>/dev/null || true
-rm -rf "${SITE_PKG}/opencv_python"* 2>/dev/null || true
-rm -rf "${SITE_PKG}/opencv_contrib_python"* 2>/dev/null || true
-rm -rf "${SITE_PKG}/opencv_python_headless"* 2>/dev/null || true
-rm -rf "${SITE_PKG}/opencv_contrib_python_headless"* 2>/dev/null || true
-
+rm -rf "${SITE_PKG}/cv2"* 2>/dev/null || true
+rm -rf "${SITE_PKG}/opencv"* 2>/dev/null || true
 conda remove --force --yes opencv-python-headless opencv-python opencv-contrib-python py-opencv libopencv 2>/dev/null || true
 pip uninstall -y opencv-python opencv-contrib-python opencv-python-headless opencv-contrib-python-headless 2>/dev/null || true
-
-echo "  ✓ OpenCV removed"
+echo "  Done"
 
 # -------------------------------------------------
-# STEP 2: Install requirements.txt
+# STEP 2-4: Python Requirements
 # -------------------------------------------------
-echo "[2/7] Installing Python requirements..."
+echo "[2-4/7] Installing Python requirements..."
 pip install --no-cache-dir -r requirements.txt 2>&1 | tail -3
-
-# -------------------------------------------------
-# STEP 3: Install paddleocr WITHOUT its opencv dependency
-# -------------------------------------------------
-echo "[3/7] Installing PaddleOCR (--no-deps)..."
 pip install --no-cache-dir --no-deps paddleocr==3.3.2
+pip install --no-cache-dir --no-deps opencv-python-headless==4.12.0.88 opencv-contrib-python-headless==4.10.0.84
 
 # -------------------------------------------------
-# STEP 4: Install headless OpenCV LAST
-# -------------------------------------------------
-echo "[4/7] Installing headless OpenCV..."
-pip install --no-cache-dir --no-deps \
-    opencv-python-headless==4.12.0.88 \
-    opencv-contrib-python-headless==4.10.0.84
-
-# -------------------------------------------------
-# STEP 5: Install LibreOffice + disable Java
+# STEP 5: Install LibreOffice (WITH CONFLICT FIX)
 # -------------------------------------------------
 echo "[5/7] Installing LibreOffice..."
 
@@ -78,17 +62,23 @@ SUDO=""
 if command -v sudo &>/dev/null; then SUDO="sudo -n"; fi
 
 if command -v soffice &>/dev/null; then
-    echo "  ✓ Already installed: $(which soffice)"
+    echo "  Already installed"
 else
-    $SUDO apt-get update -qq 2>/dev/null && \
+    # FIX: Fix held broken packages before installing
+    $SUDO apt-get update -qq --fix-missing 2>/dev/null || true
+    $SUDO apt-get install -y -f 2>/dev/null || true
+    
     $SUDO apt-get install -y -qq --no-install-recommends \
         libreoffice-writer libreoffice-calc libreoffice-impress \
         libreoffice-common fonts-dejavu-core xvfb 2>/dev/null || \
     $SUDO apt-get install -y -qq libreoffice xvfb 2>/dev/null || \
-    echo "  ✗ LibreOffice install failed. Ensure root/sudo privileges."
+    echo "  LibreOffice install failed."
+    
+    # FIX: Clean apt cache to prevent disk bloat
+    $SUDO rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* 2>/dev/null || true
 fi
 
-# Disable Java in LibreOffice config (prevents javaldx crash)
+# Disable Java in LibreOffice config
 LO_PROFILE="${HOME}/.config/libreoffice/4/user"
 mkdir -p "$LO_PROFILE"
 cat > "${LO_PROFILE}/registrymodifications.xcu" << 'XMLEOF'
@@ -105,55 +95,35 @@ cat > "${LO_PROFILE}/registrymodifications.xcu" << 'XMLEOF'
   </item>
 </oor:items>
 XMLEOF
-echo "  ✓ Java disabled in LibreOffice config"
 
 # -------------------------------------------------
 # STEP 6: Pre-download PaddleX DLA model
 # -------------------------------------------------
 echo "[6/7] Pre-downloading PaddleX DLA model..."
-
 MODEL_YML="${PADDLEX_HOME}/official_models/PP-DocLayout_plus-L/inference.yml"
 
 if [ -f "$MODEL_YML" ]; then
-    echo "  ✓ Model already present"
+    echo "  Model already present"
 else
-    echo "  Downloading PP-DocLayout_plus-L (may take a few minutes)..."
     python -c "
 import os
 os.environ['PADDLEX_HOME'] = '${PADDLEX_HOME}'
 os.environ['GLOG_v'] = '0'
 from paddleocr import LayoutDetection
 m = LayoutDetection(model_name='PP-DocLayout_plus-L')
-print('MODEL_OK')
+print('Model downloaded')
 " 2>&1 | tail -5
-
-    if [ -f "$MODEL_YML" ]; then
-        echo "  ✓ Model downloaded successfully"
-    else
-        echo "  ✗ Model download failed (will retry on first request)"
-    fi
 fi
 
 # -------------------------------------------------
 # STEP 7: Verify everything
 # -------------------------------------------------
 echo "[7/7] Verifying..."
-python -c "
-import cv2
-print(f'  OpenCV: {cv2.__version__} from {cv2.__file__}')
-import fastapi; print(f'  FastAPI: {fastapi.__version__}')
-import fitz; print(f'  PyMuPDF: {fitz.__version__}')
-from paddleocr import LayoutDetection; print('  PaddleOCR: ok')
-print('  All OK!')
-" || echo "  WARNING: Verification had issues, continuing..."
-
-command -v soffice &>/dev/null && echo "  LibreOffice: $(soffice --version 2>&1 | head -1)" || echo "  ✗ soffice not found"
-
-[ -f "$MODEL_YML" ] && echo "  DLA Model: ✓ present" || echo "  DLA Model: ✗ missing"
+command -v soffice &>/dev/null && echo "  LibreOffice: $(soffice --version 2>&1 | head -1)" || echo "  soffice not found"
+[ -f "$MODEL_YML" ] && echo "  DLA Model: present" || echo "  DLA Model: missing"
 
 echo "=============================================="
-echo " Starting CustomOCR Pipeline API v3.0..."
+echo " Starting CustomOCR Pipeline API v3.2..."
 echo "=============================================="
 
-# Start the FastAPI application
 exec uvicorn app:app --host 0.0.0.0 --port 8050 --timeout-keep-alive 120

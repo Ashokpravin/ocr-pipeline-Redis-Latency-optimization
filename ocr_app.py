@@ -39,6 +39,8 @@ from datetime import datetime, timedelta
 from contextlib import asynccontextmanager
 from collections import defaultdict
 import urllib.parse
+import tempfile
+import time as _time
 
 from fastapi import (
     FastAPI, HTTPException, File, UploadFile,
@@ -103,9 +105,28 @@ REDIS_RESULT_URL      = os.getenv("REDIS_RESULT_URL", "redis://localhost:6379/1"
 POSTGRES_URL          = os.getenv("POSTGRES_URL",     "").strip()
 FLOWER_PORT           = int(os.getenv("FLOWER_PORT",  "5555"))
 import redis as _redis_lib
-_upload_redis = _redis_lib.from_url(REDIS_URL, decode_responses=False)
+_upload_redis = None
 UPLOAD_TTL_SEC = int(os.getenv("UPLOAD_TTL_SEC", "7200"))   # 2 hours default
 RESULT_TTL_SEC = int(os.getenv("RESULT_TTL_SEC", "86400"))  # 24 hours default
+
+def _get_redis():
+    """
+    Lazily initialize Redis connection. If Redis is down when the pod starts,
+    the import won't crash. Connection is retried on each call.
+    """
+    global _upload_redis
+    if _upload_redis is not None:
+        try:
+            _upload_redis.ping()
+            return _upload_redis
+        except Exception:
+            _upload_redis = None
+ 
+    import redis as _redis_lib
+    _upload_redis = _redis_lib.from_url(REDIS_URL, decode_responses=False,
+                                         socket_connect_timeout=10,
+                                         socket_timeout=10)
+    return _upload_redis
 
 ALLOWED_EXTENSIONS: Set[str] = {
     ".pdf", ".docx", ".doc", ".pptx", ".ppt", ".xlsx", ".odp", ".odt",
@@ -891,7 +912,7 @@ async def process_document(
             )
 
         # Store file bytes in Redis — Celery worker reads from here
-        _upload_redis.setex(
+        _get_redis().setex(
             name=f"upload:{job_id}",
             time=UPLOAD_TTL_SEC,
             value=file_bytes,
@@ -1017,7 +1038,7 @@ async def download_markdown(job_id: str, token: str = Depends(verify_token)):
 
     # Read result from Redis instead of disk
     meta        = job_store.get(job_id)
-    result_bytes = _upload_redis.get(f"result:{job_id}")
+    result_bytes = _get_redis().get(f"result:{job_id}")
 
     if not result_bytes:
         raise HTTPException(status_code=404, detail="Result not found or expired (24hr limit).")
@@ -1087,7 +1108,7 @@ async def delete_job(job_id: str, token: str = Depends(verify_token)):
         except OSError as e:
             logger.warning("[Job %s] Delete result file failed: %s", job_id, str(e))
     job_store.delete(job_id)
-    _upload_redis.delete(f"result:{job_id}")
+    _get_redis().delete(f"result:{job_id}")
     return {"message": f"Job {job_id} deleted successfully"}
 
 
@@ -1095,13 +1116,44 @@ async def delete_job(job_id: str, token: str = Depends(verify_token)):
 # BACKGROUND TASKS
 # =============================================================================
 
+def _sweep_tmp_profiles():
+    """
+    Remove orphaned LibreOffice temporary profile directories from /tmp.
+    These are created by FileIngestor._convert_office_to_pdf() and normally
+    cleaned up in the finally block. However, if a worker is OOM-killed or
+    receives SIGKILL, the finally block doesn't run, leaving orphaned dirs.
+    
+    This sweep runs every hour and removes profiles older than 1 hour.
+    Over 6 days, this prevents the ~500MB accumulation that contributed
+    to the 3.1GB ephemeral storage eviction.
+    """
+    tmp_dir = Path(tempfile.gettempdir())
+    cutoff = _time.time() - 3600  # 1 hour old
+    cleaned = 0
+    try:
+        for d in tmp_dir.glob("soffice_profile_*"):
+            try:
+                if d.is_dir() and d.stat().st_mtime < cutoff:
+                    shutil.rmtree(d, ignore_errors=True)
+                    cleaned += 1
+            except Exception:
+                pass
+    except Exception:
+        pass
+    if cleaned:
+        logger.info("Swept %d orphaned soffice temp profiles from /tmp", cleaned)
+ 
+ 
 async def periodic_job_cleanup():
+    """Runs every hour to cleanup expired jobs, rate limiter, and orphaned temp files."""
     while True:
         try:
             await asyncio.sleep(3600)
             cleanup_old_jobs()
             rate_limiter.cleanup()
+            _sweep_tmp_profiles()  # <-- NEW: Clean orphaned LibreOffice temp dirs
         except asyncio.CancelledError:
+            logger.info("Periodic cleanup task cancelled")
             break
         except Exception as e:
             logger.error("Periodic cleanup error: %s", str(e))

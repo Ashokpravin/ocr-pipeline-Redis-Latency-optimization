@@ -2462,3 +2462,26 @@
 2026-04-15 18:16:33,253 - ocr_app - INFO - [lifespan:691] ============================================================
 2026-04-15 18:16:50,591 - ocr_app - INFO - [lifespan:695] Shutting down...
 2026-04-15 18:16:50,591 - ocr_app - INFO - [lifespan:703] Shutdown complete.
+2026-04-16 15:08:23,011 - ocr_app - INFO - [lifespan:647] ============================================================
+2026-04-16 15:08:23,011 - ocr_app - INFO - [lifespan:648] CustomOCR Pipeline API v4.0.0 (Celery + Redis) starting...
+2026-04-16 15:08:23,011 - ocr_app - INFO - [lifespan:649] ============================================================
+2026-04-16 15:08:23,011 - ocr_app - INFO - [compute_optimal_workers:453] [ResourceMonitor] Workers: RAM=31.0GB ram_limit=18 cpu_limit=32 optimal=18
+2026-04-16 15:08:23,012 - ocr_app - INFO - [lifespan:655] Reference workers  : 18
+2026-04-16 15:08:23,012 - ocr_app - INFO - [lifespan:656] Output Directory   : /home/katonic/workspace/ocr-pipeline-Redis-Latency-optimization/output
+2026-04-16 15:08:23,012 - ocr_app - INFO - [lifespan:657] Max Upload Size    : 500 MB
+2026-04-16 15:08:23,012 - ocr_app - INFO - [lifespan:658] Job Retention      : 24 hours
+2026-04-16 15:08:23,012 - ocr_app - INFO - [lifespan:659] Rate Limit         : 0 req/min/IP
+2026-04-16 15:08:23,012 - ocr_app - INFO - [lifespan:660] Max Queue Depth    : 50
+2026-04-16 15:08:23,012 - ocr_app - INFO - [lifespan:661] Redis Broker       : redis://redis.app-dependencies.svc.cluster.local:6379/0
+2026-04-16 15:08:23,012 - ocr_app - INFO - [lifespan:662] PostgreSQL         : configured
+2026-04-16 15:08:23,012 - ocr_app - INFO - [lifespan:666] Auth Tokens        : 3 configured
+2026-04-16 15:08:23,012 - ocr_app - INFO - [lifespan:670] RAM                : 31.0 GB
+2026-04-16 15:08:23,013 - ocr_app - INFO - [lifespan:671] CPU cores          : 32
+2026-04-16 15:08:23,013 - ocr_app - INFO - [lifespan:672] Disk free          : 48.7 GB
+2026-04-16 15:08:23,013 - ocr_app - INFO - [lifespan:678] Output directory   : Writable OK
+2026-04-16 15:08:23,122 - ocr_app - INFO - [_get_pg_engine:226] [PostgreSQL] Connected. Table ocr_jobs ready.
+2026-04-16 15:08:23,122 - ocr_app - INFO - [lifespan:689] ============================================================
+2026-04-16 15:08:23,122 - ocr_app - INFO - [lifespan:690] API Ready. Accepting requests.
+2026-04-16 15:08:23,122 - ocr_app - INFO - [lifespan:691] ============================================================
+2026-04-16 18:15:53,447 - ocr_app - INFO - [lifespan:695] Shutting down...
+2026-04-16 18:15:53,447 - ocr_app - INFO - [lifespan:703] Shutdown complete.

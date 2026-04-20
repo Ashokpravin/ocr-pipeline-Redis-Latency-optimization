@@ -1,10 +1,5 @@
 # =============================================================================
-# CustomOCR Pipeline API - Dockerfile (Katonic Docker Mode) v3.0
-# =============================================================================
-# FIXES:
-#   - LibreOffice installed for .docx/.pptx/.xlsx support
-#   - Java disabled in LibreOffice (prevents javaldx crash)
-#   - PaddleX DLA model pre-downloaded (prevents runtime FileNotFoundError)
+# CustomOCR Pipeline API - Dockerfile (Katonic Docker Mode) v3.1
 # =============================================================================
 
 FROM python:3.11-slim
@@ -14,8 +9,8 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # LibreOffice environment: disable Java, set headless mode
+# CRITICAL FIX: Removed SAL_DISABLE_COMPONENTCONTEXT=1
 ENV SAL_USE_VCLPLUGIN=gen
-ENV SAL_DISABLE_COMPONENTCONTEXT=1
 ENV JAVA_HOME=""
 ENV HOME=/root
 
@@ -35,6 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
     libstdc++6 \
     poppler-utils \
+    xvfb \
     # LibreOffice for Office document conversion
     libreoffice-writer \
     libreoffice-calc \
@@ -59,14 +55,14 @@ RUN mkdir -p /root/.config/libreoffice/4/user && \
   </item>\n\
 </oor:items>' > /root/.config/libreoffice/4/user/registrymodifications.xcu
 
-# Install Python deps
+# Install Python deps and fix OpenCV for PaddleX
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir --no-deps paddleocr==3.3.2 && \
-    pip uninstall -y opencv-python opencv-contrib-python 2>/dev/null; true && \
+    pip uninstall -y opencv-python opencv-contrib-python 2>/dev/null || true && \
     pip install --no-cache-dir --no-deps \
-        opencv-python-headless==4.10.0.84 \
+        opencv-python-headless==4.12.0.88 \
         opencv-contrib-python-headless==4.10.0.84
 
 # Create fake opencv metadata for PaddleX compatibility
@@ -84,7 +80,7 @@ RUN SITE_PKG=$(python -c "import site; print(site.getsitepackages()[0])") && \
 # Copy application
 COPY . .
 
-# Pre-download PaddleX DLA model (prevents runtime download failure)
+# Pre-download PaddleX DLA model
 RUN python -c "\
 import os; \
 os.environ['PADDLEX_HOME'] = '/root/.paddlex'; \
@@ -94,11 +90,6 @@ from paddleocr import LayoutDetection; \
 m = LayoutDetection(model_name='PP-DocLayout_plus-L'); \
 print('Model downloaded successfully'); \
 " || echo "WARNING: Model download failed. Will retry at runtime."
-
-# Verify model exists
-RUN ls -la /root/.paddlex/official_models/PP-DocLayout_plus-L/inference.yml 2>/dev/null \
-    && echo "✓ DLA model present" \
-    || echo "⚠ DLA model missing (will download on first use)"
 
 # Create output directory
 RUN mkdir -p /app/output/completed
