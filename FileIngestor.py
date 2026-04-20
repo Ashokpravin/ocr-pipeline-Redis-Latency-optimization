@@ -170,25 +170,35 @@ class FileIngestor:
 
         import tempfile
         import uuid
+        import shutil
         
-        # 1. Create a unique temporary directory for this specific conversion thread
-        # This absolutely prevents LibreOffice concurrency crashes
-        profile_dir = Path(tempfile.gettempdir()) / f"soffice_profile_{uuid.uuid4().hex}"
+        # 1. Unique ID for thread safety
+        uid = uuid.uuid4().hex
+        
+        # 2. Create isolated work directory and profile
+        lo_work = Path(tempfile.gettempdir()) / f"lo_work_{uid}"
+        lo_work.mkdir(parents=True, exist_ok=True)
+        
+        profile_dir = lo_work / "profile"
         profile_url = f"file://{profile_dir.as_posix()}"
+
+        # 3. Create a safe input filename (LibreOffice CLI chokes on spaces/special chars)
+        safe_input = lo_work / f"input{input_path.suffix.lower()}"
+        shutil.copy2(input_path, safe_input)
 
         soffice_bin = shutil.which(self.soffice_cmd)
         if not soffice_bin:
             soffice_bin = self.soffice_cmd
 
-        # 2. Build command WITHOUT xvfb-run, and WITH isolated UserInstallation
+        # 4. Build command with safe input and isolated profile
         cmd = [
             soffice_bin, 
-            f"-env:UserInstallation={profile_url}",  # <-- THE CONCURRENCY FIX
+            f"-env:UserInstallation={profile_url}",
             "--headless", 
             "--norestore", 
             "--convert-to", "pdf", 
-            "--outdir", str(out_dir), 
-            str(input_path)
+            "--outdir", str(lo_work), 
+            str(safe_input)
         ]
 
         logger = logging.getLogger(__name__)
@@ -207,15 +217,26 @@ class FileIngestor:
                 stderr=subprocess.PIPE,
                 timeout=120
             )
+            
+            # 5. Check if PDF was actually created
+            safe_pdf = lo_work / "input.pdf"
+            if not safe_pdf.exists():
+                err_msg = result.stderr.decode(errors="replace").strip()
+                out_msg = result.stdout.decode(errors="replace").strip()
+                raise RuntimeError(f"LibreOffice returned 0 but no PDF found. STDOUT: {out_msg} STDERR: {err_msg}")
+            
+            # 6. Move to final destination with the original expected name
+            shutil.move(str(safe_pdf), str(expected_pdf))
             logger.info("[LibreOffice] Success")
+            
         except subprocess.CalledProcessError as e:
             err_msg = e.stderr.decode(errors="replace").strip()
             raise RuntimeError(f"LibreOffice failed: {err_msg}")
         except subprocess.TimeoutExpired:
             raise RuntimeError("LibreOffice conversion timed out after 120s")
         finally:
-            # 3. Clean up the temporary profile immediately to prevent disk bloat
-            shutil.rmtree(profile_dir, ignore_errors=True)
+            # 7. Clean up work directory (contains profile, safe_input, and safe_pdf)
+            shutil.rmtree(lo_work, ignore_errors=True)
 
         if not expected_pdf.exists():
             raise FileNotFoundError(f"LibreOffice failed to create: {expected_pdf}")
