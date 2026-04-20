@@ -206,7 +206,12 @@ class FileIngestor:
 
         lo_env = os.environ.copy()
         lo_env["JAVA_HOME"] = ""
-        lo_env["SAL_USE_VCLPLUGIN"] = "gen"
+        # CRITICAL: Do NOT set SAL_USE_VCLPLUGIN=gen — that forces X11 display
+        # mode and crashes with "Can't open display" in a headless pod.
+        # Removing both variables lets LibreOffice default to its built-in
+        # SVP (headless) plugin, which needs no display at all.
+        lo_env.pop("SAL_USE_VCLPLUGIN", None)
+        lo_env.pop("DISPLAY", None)
 
         try:
             result = subprocess.run(

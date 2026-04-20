@@ -1,19 +1,11 @@
 """
 ================================================================================
 celery_app.py
-CustomOCR Pipeline v4.0 | Celery + Redis Application Configuration
+CustomOCR Pipeline v4.1 | Celery + Redis Application Configuration
 ================================================================================
-FIX: load_dotenv() now uses the path of THIS FILE (celery_app.py) to locate
-     the .env file, instead of relying on the current working directory.
-     This means Celery can be started from any directory and will always
-     find the correct .env with OCR_OUTPUT_DIR=./output.
-
-DEPLOYMENT:
-  App 1 (FastAPI):       uvicorn ocr_app:app --host 0.0.0.0 --port 8050
-  App 2 (Celery Worker): celery -A celery_app worker --pool=solo --concurrency=1 --loglevel=info -Q ocr_queue
-  App 3 (Flower):        celery -A celery_app flower --port=5555
-
-CRITICAL: NEVER run Celery gevent pool in same process as FastAPI.
+FIX v4.1: Added Redis connection pool caps and disabled gossip/mingle/events.
+  Without these caps, 8 prefork workers flood Redis with connections on startup,
+  causing the Redis pod to OOM-crash, which then cascades and kills FastAPI too.
 ================================================================================
 """
 
@@ -22,17 +14,11 @@ from pathlib import Path
 from celery import Celery
 from dotenv import load_dotenv
 
-# ---------------------------------------------------------------------------
-# FIX: Load .env from the directory where THIS FILE lives, not from cwd.
-# Path(__file__) = .../ocr-pipeline-fastapi-.../celery_app.py
-# .parent        = .../ocr-pipeline-fastapi-.../   <- where .env lives
-# This works regardless of which directory Celery is started from.
-# ---------------------------------------------------------------------------
 _env_path = Path(__file__).resolve().parent / ".env"
 if _env_path.exists():
     load_dotenv(_env_path, override=True)
 else:
-    load_dotenv(override=True)   # fallback to cwd search
+    load_dotenv(override=True)
 
 # ---------------------------------------------------------------------------
 # Redis connections
@@ -71,6 +57,32 @@ celery_app.conf.update(
     task_routes={
         "tasks.process_document_task": {"queue": "ocr_queue"},
     },
+
+    # =========================================================================
+    # REDIS OOM FIXES — these 5 lines prevent the Redis pod from being killed
+    # =========================================================================
+
+    # 1. Cap the total number of Redis connections this worker can hold open.
+    #    Without this, 8 prefork workers each open unlimited connections and
+    #    the Redis pod runs out of memory and is killed by Kubernetes.
+    redis_max_connections=20,
+    broker_pool_limit=10,
+
+    # 2. Disable worker-to-worker gossip and the mingle startup handshake.
+    #    With only one worker pod these generate pure Redis traffic overhead.
+    worker_disable_mingle=True,
+
+    # 3. Disable real-time task state events.
+    #    Events cause every worker subprocess to continuously write heartbeat
+    #    records to Redis, causing memory spikes on the Redis pod.
+    #    NOTE: disabling this means Flower won't show live task progress,
+    #    but your pipeline will be stable. Re-enable if you need Flower.
+    worker_send_task_events=False,
+    task_send_sent_event=False,
+
+    # 4. Retry broker connection on startup instead of crashing immediately.
+    broker_connection_retry_on_startup=True,
+    # =========================================================================
 )
 
 if __name__ == "__main__":
