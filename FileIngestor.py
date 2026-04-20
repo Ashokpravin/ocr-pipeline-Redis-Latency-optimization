@@ -168,85 +168,58 @@ class FileIngestor:
             return expected_pdf
         out_dir.mkdir(parents=True, exist_ok=True)
 
-        import time
-        lo_work = Path(f"/tmp/lo_{os.getpid()}_{int(time.time()*1000)}")
-        lo_work.mkdir(parents=True, exist_ok=True)
-
-        safe_input = lo_work / f"input{input_path.suffix.lower()}"
-        shutil.copy2(input_path, safe_input)
-
-        # Disable Java in default user profile
-        default_profile = Path(os.environ.get("HOME", "/tmp")) / ".config" / "libreoffice"
-        lo_user_dir = default_profile / "4" / "user"
-        lo_user_dir.mkdir(parents=True, exist_ok=True)
-        (lo_user_dir / "registrymodifications.xcu").write_text(
-            '<?xml version="1.0" encoding="UTF-8"?>\n'
-            '<oor:items xmlns:oor="http://openoffice.org/2001/registry"\n'
-            '           xmlns:xs="http://www.w3.org/2001/XMLSchema"\n'
-            '           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n'
-            '  <item oor:path="/org.openoffice.Office.Common/Java">\n'
-            '    <node oor:name="ooSetupNode" oor:op="fuse">\n'
-            '      <prop oor:name="Enable" oor:type="xs:boolean">\n'
-            '        <value>false</value>\n'
-            '      </prop>\n'
-            '    </node>\n'
-            '  </item>\n'
-            '</oor:items>\n',
-            encoding="utf-8"
-        )
-
-        lo_env = os.environ.copy()
-        lo_env["JAVA_HOME"] = ""
-        lo_env["JFW_PLUGIN_DO_NOT_CHECK_ACCESSIBILITY"] = "1"
-        lo_env["SAL_USE_VCLPLUGIN"] = "gen"
-        lo_env.pop("SAL_DISABLE_COMPONENTCONTEXT", None)
+        import tempfile
+        import uuid
+        
+        # 1. Create a unique temporary directory for this specific conversion thread
+        # This absolutely prevents LibreOffice concurrency crashes
+        profile_dir = Path(tempfile.gettempdir()) / f"soffice_profile_{uuid.uuid4().hex}"
+        profile_url = f"file://{profile_dir.as_posix()}"
 
         soffice_bin = shutil.which(self.soffice_cmd)
         if not soffice_bin:
-            raise RuntimeError(f"LibreOffice executable '{self.soffice_cmd}' not found in PATH")
+            soffice_bin = self.soffice_cmd
 
+        # 2. Build command WITHOUT xvfb-run, and WITH isolated UserInstallation
         cmd = [
-            "xvfb-run", "-a",                # virtual X server, auto display
-            soffice_bin, "--headless", "--norestore",
-            "--convert-to", "pdf",
-            "--outdir", str(lo_work),
-            str(safe_input),
+            soffice_bin, 
+            f"-env:UserInstallation={profile_url}",  # <-- THE CONCURRENCY FIX
+            "--headless", 
+            "--norestore", 
+            "--convert-to", "pdf", 
+            "--outdir", str(out_dir), 
+            str(input_path)
         ]
 
         logger = logging.getLogger(__name__)
         logger.info("[LibreOffice] CMD: %s", " ".join(cmd))
 
+        lo_env = os.environ.copy()
+        lo_env["JAVA_HOME"] = ""
+        lo_env["SAL_USE_VCLPLUGIN"] = "gen"
+
         try:
             result = subprocess.run(
                 cmd,
-                check=False,
+                check=True,
                 env=lo_env,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 timeout=120
             )
-            stdout_text = result.stdout.decode(errors="replace").strip()
-            stderr_text = result.stderr.decode(errors="replace").strip()
-
-            logger.info("[LibreOffice] STDOUT: %s", stdout_text)
-            logger.info("[LibreOffice] STDERR: %s", stderr_text)
-
-            # LibreOffice may exit non-zero due to harmless javaldx warning.
-            # Success is determined by PDF creation.
-            pdf_files = list(lo_work.glob("*.pdf"))
-            if not pdf_files:
-                raise RuntimeError(
-                    f"LibreOffice produced no PDF. Return code: {result.returncode}\n"
-                    f"STDOUT: {stdout_text}\nSTDERR: {stderr_text}"
-                )
-            lo_output = pdf_files[0]
-
+            logger.info("[LibreOffice] Success")
+        except subprocess.CalledProcessError as e:
+            err_msg = e.stderr.decode(errors="replace").strip()
+            raise RuntimeError(f"LibreOffice failed: {err_msg}")
         except subprocess.TimeoutExpired:
-            shutil.rmtree(lo_work, ignore_errors=True)
             raise RuntimeError("LibreOffice conversion timed out after 120s")
+        finally:
+            # 3. Clean up the temporary profile immediately to prevent disk bloat
+            shutil.rmtree(profile_dir, ignore_errors=True)
 
-        shutil.move(str(lo_output), str(expected_pdf))
-        shutil.rmtree(lo_work, ignore_errors=True)
+        if not expected_pdf.exists():
+            raise FileNotFoundError(f"LibreOffice failed to create: {expected_pdf}")
+        
         return expected_pdf
 
     def _convert_text_to_pdf(self, input_path: Path, out_dir: Path) -> Path:
