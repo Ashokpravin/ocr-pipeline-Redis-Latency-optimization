@@ -73,7 +73,7 @@ else:
 # =============================================================================
 # Step 3: Replace this process with Celery worker
 # =============================================================================
-concurrency = os.getenv("CELERY_CONCURRENCY", "8")
+concurrency = os.getenv("CELERY_CONCURRENCY", "2")
 
 print(f"[celery_entry] Starting Celery worker (prefork, concurrency={concurrency})", flush=True)
 print(f"[celery_entry] REDIS_URL={redis_url}", flush=True)
