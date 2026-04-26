@@ -91,7 +91,7 @@ m = LayoutDetection(model_name='PP-DocLayout_plus-L'); \
 print('Model downloaded successfully'); \
 " || echo "WARNING: Model download failed. Will retry at runtime."
 
-# Create output directory
+# Create output directory.
 RUN mkdir -p /app/output/completed
 ENV PYTHONPATH=/app
 
